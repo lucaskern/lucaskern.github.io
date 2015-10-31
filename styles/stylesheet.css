@@ -2,6 +2,21 @@ body {
   margin: 0 auto;
   font-family: sans-serif;
 }
+
+.center{
+  text-align: center;
+}
+
+.italics{
+  font-style: italic;
+}
+
+h1 {
+  font-size: 75px;
+  font-weight: bold;
+  color: rgb(40, 70, 101);
+}
+
 h2 {
   font-size: 25px;
   line-height: 40px;
@@ -10,6 +25,16 @@ h2 {
   color: rgb(119, 128, 136);
   font-family: Verdana;
 }
+
+h2 a{
+  color: rgb(98, 102, 106);
+}
+
+a{color: white; font-weight: bold; text-decoration: none; transition: 1s;}
+a::before{}
+a:hover{color: rgb(222, 100, 100); transition: 1s;}
+a::after{color: rgb(98, 102, 106);}
+
 .red {
   background-color: #FEB762;
 }
@@ -19,6 +44,8 @@ h2 {
 .green {
   background-color: #DC7A61;
 }
+
+
 #welcomeHi {
   font-size: 75px;
   font-weight: bold;
@@ -34,16 +61,24 @@ h2 {
   width: 50%;
   margin: auto;
 }
+
 .section {
   width: 100%;
   height: 600px;
 }
+
+.section h1{
+  padding-top: 100px;
+}
+
 .sectionImg img {
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
+
 .sectionImg {
+
   padding-top: 50px;
   width: 100%;
 }
@@ -53,6 +88,7 @@ h2 {
   margin-right: auto;
   margin-top: 20px;
 
+  line-height: normal;
   text-align: center;
   color: white;
   width: 200px;
@@ -60,4 +96,19 @@ h2 {
 
   border: 3px solid white;
   border-radius: 50px;
+}
+
+.projectLink h3{
+  font-weight: bold;
+}
+
+.triImage{
+  width: 100%;
+  height: auto;
+}
+
+.triImage img{
+  float: left;
+  width: 33.333%;
+  height: auto;
 }
