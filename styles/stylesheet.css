@@ -1,29 +1,63 @@
 body {
   margin: 0 auto;
+  font-family: sans-serif;
 }
-header {
-  margin: 0 auto;
-  background-color: gray;
+h2 {
+  font-size: 25px;
+  line-height: 40px;
+  font-style: normal;
+  font-weight: lighter;
+  color: rgb(119, 128, 136);
+  font-family: Verdana;
+}
+.red {
+  background-color: #FEB762;
+}
+.blue {
+  background-color: #554B66;
+}
+.green {
+  background-color: #DC7A61;
+}
+#welcomeHi {
+  font-size: 75px;
+  font-weight: bold;
+  color: rgb(40, 70, 101);
+}
+.welcome {
   width: 100%;
-  height: 900px;
+  height: 850px;
+  background-color: rgb(245, 245, 245);
 }
-header img {
+#welcomeText {
+  padding-top: 200px;
+  width: 50%;
+  margin: auto;
+}
+.section {
+  width: 100%;
+  height: 600px;
+}
+.sectionImg img {
   display: block;
-  height: auto;
-  margin: 10px 0px 10px 10px;
-  max-width: 80%;
-  max-height: 150px;
+  margin-left: auto;
+  margin-right: auto;
 }
-nav {
-  float: left;
-  background-color: red;
-  width: 20%;
+.sectionImg {
+  padding-top: 50px;
+  width: 100%;
 }
-#menuSliceActive {}
-.menuSlice {
-  float: left;
-  height: auto;
-  width: 33.333%;
 
+.projectLink{
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+
+  text-align: center;
+  color: white;
+  width: 200px;
+  height: 50px;
+
+  border: 3px solid white;
+  border-radius: 50px;
 }
-footer {}
