@@ -35,7 +35,7 @@ h2 a{
 
 a{color: white; font-weight: bold; text-decoration: none; transition: 1s;}
 a::before{}
-a:hover{color: rgb(44, 232, 212); transition: 1s;}
+a:hover{color: rgb(210, 46, 46); transition: 1s;}
 a::after{color: rgb(98, 102, 106);}
 
 .red {
@@ -116,8 +116,11 @@ footer p{
   height: 600px;
 }
 
-.section h1{
-  padding-top: 100px;
+.section h1, h3{
+  margin: auto;
+  text-align: center;
+
+  color: white;
 }
 
 .sectionImg img {
@@ -147,6 +150,7 @@ footer p{
   border-radius: 50px;
 }
 
+
 .projectLink h3{
   font-weight: bold;
 }
@@ -158,8 +162,14 @@ footer p{
 
 .projectBlock{
   width: 50%;
-  height: 300px;
+  height: 50%;
   float: left;
+}
+
+.projectBlock img {
+  width: 50%;
+  height: 50%;
+
 }
 
 .triImage{
