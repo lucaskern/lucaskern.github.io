@@ -18,8 +18,59 @@ body {
   font-weight: bold;
 }
 
+@font-face {
+    font-family: 'candalregular';
+    src: url('candal-webfont.eot');
+    src: url('candal-webfont.eot?#iefix') format('embedded-opentype'),
+         url('candal-webfont.woff2') format('woff2'),
+         url('candal-webfont.woff') format('woff'),
+         url('candal-webfont.ttf') format('truetype'),
+         url('candal-webfont.svg#candalregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'senregular';
+    src: url('sen-regular-webfont.eot');
+    src: url('sen-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('sen-regular-webfont.woff2') format('woff2'),
+         url('sen-regular-webfont.woff') format('woff'),
+         url('sen-regular-webfont.ttf') format('truetype'),
+         url('sen-regular-webfont.svg#senregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'senbold';
+    src: url('sen-bold-webfont.eot');
+    src: url('sen-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('sen-bold-webfont.woff2') format('woff2'),
+         url('sen-bold-webfont.woff') format('woff'),
+         url('sen-bold-webfont.ttf') format('truetype'),
+         url('sen-bold-webfont.svg#senbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'senextrabold';
+    src: url('sen-extrabold-webfont.eot');
+    src: url('sen-extrabold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('sen-extrabold-webfont.woff2') format('woff2'),
+         url('sen-extrabold-webfont.woff') format('woff'),
+         url('sen-extrabold-webfont.ttf') format('truetype'),
+         url('sen-extrabold-webfont.svg#senextrabold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* Title text */
 h1 {
+  margin: 20px 0px 20px 0px;
+  font-family: candalregular;
   font-size: 75px;
   font-weight: bold;
   color: rgb(40, 70, 101);
@@ -27,16 +78,17 @@ h1 {
 
 /* Body text */
 h2 {
+  font-family: senregular;
   font-size: 25px;
   line-height: 40px;
   font-style: normal;
   font-weight: lighter;
   color: rgb(119, 128, 136);
-  font-family: Verdana;
 }
 
 h3{
   margin: 0;
+  font-family: senregular;
 }
 /* Body link, adds emphasis */
 h2 a{
@@ -130,14 +182,14 @@ footer h3, footer a, footer a:hover{
 /* Large header section*/
 #landing {
   width: 100%;
-  height: 850px;
+  height: 870px;
   background-color: rgb(245, 245, 245);
 }
 
 /* centered block with space on top */
 #landingText {
   padding-top: 150px;
-  width: 50%;
+  width: 60%;
   margin: auto;
 }
 
@@ -199,6 +251,11 @@ footer h3, footer a, footer a:hover{
   height: auto;
 }
 
+.inspection{
+  width: 100%;
+  height: 100%;
+}
+
 /* Different screen size styles */
 @media screen and (max-width: 900px) and (min-width: 481px){
 
@@ -214,6 +271,16 @@ footer h3, footer a, footer a:hover{
 }
 
 @media screen and (max-width: 480px) and (min-width: 10px){
+
+  h1{
+    font-size: 2em;
+  }
+
+  h2{}
+
+  h3{
+    font-size
+  }
   #landing{
     height: 85%;
   }
