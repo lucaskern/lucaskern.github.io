@@ -22,6 +22,12 @@ html, body {
 
 .circleImg{
   border-radius: 50%;
+  width: 300px;
+  height: 300px;
+}
+
+.emptySpace100 {
+    padding-top: 30px;
 }
 
 @font-face {
@@ -156,6 +162,10 @@ a::after{color: rgb(100, 100, 100);}
   background-color: rgb(13, 84, 142);
 }
 
+.green {
+  background-color: #56D75E;
+}
+
 .egg{
   background-color: rgb(245,245,245);
 }
@@ -184,6 +194,7 @@ footer{
   width: 100%;
   background-color: rgb(70,70,70);
 }
+
 
 footer h3, footer a, footer a:hover{
   color: rgb(245, 245, 245);
@@ -229,7 +240,7 @@ footer h3, footer a, footer a:hover{
 /* General content box */
 .section {
   width: 100%;
-  height: 600px;
+  height: 300px;
 }
 
 .sectionImg {
@@ -241,6 +252,28 @@ footer h3, footer a, footer a:hover{
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+.section h1 {
+    font-size: 50px;
+    color: white;
+    text-align: center
+}
+
+.section ul li {
+  padding-top: 10px;;
+}
+
+.section ul li a {
+  color: white;
+  border: none;
+}
+
+ul li a::hover {} 
+
+.section ul {
+  margin: 0 30%;;
+  color: white;
 }
 
 /* Link to specific project */
