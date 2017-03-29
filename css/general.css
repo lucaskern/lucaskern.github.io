@@ -1,0 +1,146 @@
+.nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding-left: 10px;
+  overflow: hidden;
+}
+
+.nav li {
+  float: left;
+}
+
+.nav li a {
+  display: block;
+  color: slategray;
+  font-weight: 600;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.nav {
+  background-size: cover;
+  color: white;
+  padding: 0.5em;
+}
+
+.nav a {
+  color: black;
+  text-decoration: none;
+  font-weight: 600;
+  transition: .3s;
+  white-space: nowrap;
+  overflow: hidden;
+  float: left;
+}
+
+.nav a:hover {
+  transition: .3s;
+}
+
+footer {
+	color: white;
+	padding-top: 20px;
+	text-align: center;
+}
+
+footer a, h5 {
+  color: black; 
+}
+
+select {
+  color: black;
+}
+
+input {
+  color: black;
+}
+
+#tabs {
+  margin: 0px 0px 30px 0px;
+}
+
+#tabs a {
+  background-color: #494E6B;
+  color: white;
+}
+
+#web, #software, #fun {
+  border-bottom: 1px solid #494E6B;
+}
+
+.centered {
+  display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.subtitle {
+  margin-top: 5%;
+  text-align: center;
+  font-size: 20px;
+}
+
+.topic {
+  text-align: center;
+}
+
+.topic img {
+    width: 158px;
+  }
+
+.welcome {
+  margin-bottom: 2em;
+}
+
+.work , .contact {
+  background-color: #494E6B;
+  background-size: cover;
+  color: #fff;
+  padding-bottom: 5rem;
+}
+
+.about {
+  background-color: white;
+  background-size: cover;
+  color: #000;
+  padding-bottom: 5rem;
+}
+
+/* Larger than mobile */
+@media (min-width: 400px) {
+  .topic img {
+    width: 158px;
+    margin-top: 20px;
+  }
+}
+
+/* Larger than phablet (also point when grid becomes active) */
+@media (min-width: 550px) {
+  
+}
+
+/* Larger than tablet */
+@media (min-width: 750px) {
+  .nav a {  
+  font-size: 1.3em;
+  }
+  
+  .topic img {
+    width: 128px;
+  }
+}
+
+/* Larger than desktop */
+@media (min-width: 1000px) {
+  .subtitle {
+    font-size: 30px;
+  }
+}
+
+/* Larger than Desktop HD */
+@media (min-width: 1200px) {}
+
+
+
+
