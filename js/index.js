@@ -3,7 +3,6 @@ $(document).ready(function () {
 
   $("#web, #software, #fun").hide();
 
-
   $(".webBtn").click(function () {
 
     $("#software, #fun").slideUp("slow");
@@ -28,4 +27,14 @@ $(document).ready(function () {
   $( function() {
     $( "#tabs" ).tabs();
   } );
+  
+   $(window).scroll(function () {
+      console.log($(window).scrollTop())
+    if ($(window).scrollTop() > 280) {
+      $('.nav').addClass('navbar-fixed');
+    }
+    if ($(window).scrollTop() < 281) {
+      $('.nav_bar').removeClass('navbar-fixed');
+    }
+  });
 });

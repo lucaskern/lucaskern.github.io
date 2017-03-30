@@ -1,7 +1,13 @@
+.navbar-fixed {
+  top: 0;
+  z-index: 100;
+  position: fixed;
+  width: 100%;
+}
+
 .nav ul {
   list-style-type: none;
   margin: 0;
-  padding-left: 10px;
   overflow: hidden;
 }
 
@@ -11,7 +17,7 @@
 
 .nav li a {
   display: block;
-  color: slategray;
+  color: white;
   font-weight: 600;
   text-align: center;
   padding: 14px 16px;
@@ -19,13 +25,15 @@
 }
 
 .nav {
-  background-size: cover;
-  color: white;
-  padding: 0.5em;
+  border: 0;
+  background-color: #3A65FC;
+  border-radius: 0px;
+  margin-bottom: 0;
+  height: 50px;
 }
 
 .nav a {
-  color: black;
+  color: white;
   text-decoration: none;
   font-weight: 600;
   transition: .3s;
@@ -39,13 +47,13 @@
 }
 
 footer {
-	color: white;
-	padding-top: 20px;
-	text-align: center;
+  color: white;
+  padding-top: 20px;
+  text-align: center;
 }
 
-footer a, h5 {
-  color: black; 
+footer a {
+  color: black;
 }
 
 select {
@@ -65,14 +73,16 @@ input {
   color: white;
 }
 
-#web, #software, #fun {
+#web,
+#software,
+#fun {
   border-bottom: 1px solid #494E6B;
 }
 
 .centered {
   display: block;
-    margin-left: auto;
-    margin-right: auto
+  margin-left: auto;
+  margin-right: auto
 }
 
 .subtitle {
@@ -86,14 +96,15 @@ input {
 }
 
 .topic img {
-    width: 158px;
-  }
-
-.welcome {
-  margin-bottom: 2em;
+  width: 158px;
 }
 
-.work , .contact {
+.welcome {
+  margin: 0px 0px 2em 0px;
+}
+
+.work,
+.contact {
   background-color: #494E6B;
   background-size: cover;
   color: #fff;
@@ -107,7 +118,9 @@ input {
   padding-bottom: 5rem;
 }
 
+
 /* Larger than mobile */
+
 @media (min-width: 400px) {
   .topic img {
     width: 158px;
@@ -115,32 +128,37 @@ input {
   }
 }
 
+
 /* Larger than phablet (also point when grid becomes active) */
-@media (min-width: 550px) {
-  
-}
+
+@media (min-width: 550px) {}
+
 
 /* Larger than tablet */
+
 @media (min-width: 750px) {
-  .nav a {  
-  font-size: 1.3em;
+  .nav {}
+  .nav a {
+    font-size: 1.3em;
   }
-  
   .topic img {
     width: 128px;
   }
 }
 
+
 /* Larger than desktop */
+
 @media (min-width: 1000px) {
   .subtitle {
     font-size: 30px;
   }
+  .welcome {
+    margin: 200px 0px 250px 0px;
+  }
 }
 
+
 /* Larger than Desktop HD */
+
 @media (min-width: 1200px) {}
-
-
-
-
