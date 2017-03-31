@@ -1,0 +1,4 @@
+- contact
+	- white rectangle with email or phone icon. Hover over and slow fade to number.
+- about
+	- resume link in one column 
