@@ -9,32 +9,34 @@ $(document).ready(function () {
 
     $("#web").slideToggle("slow");
   });
-  
+
   $(".funBtn").click(function () {
 
     $("#web, #software").slideUp("slow");
 
     $("#fun").slideToggle("slow");
   });
-  
+
   $(".softwareBtn").click(function () {
 
     $("#web, #fun").slideUp("slow");
 
     $("#software").slideToggle("slow");
   });
-  
-  $( function() {
-    $( "#tabs" ).tabs();
-  } );
-  
-   $(window).scroll(function () {
-      console.log($(window).scrollTop())
+
+  $(function () {
+    $("#tabs").tabs();
+  });
+
+  $(window).scroll(function () {
+    //console.log($(window).scrollTop())
     if ($(window).scrollTop() > 280) {
       $('.nav').addClass('navbar-fixed');
+
+      
     }
     if ($(window).scrollTop() < 281) {
-      $('.nav_bar').removeClass('navbar-fixed');
+      $('.nav').removeClass('navbar-fixed');
     }
   });
 });
