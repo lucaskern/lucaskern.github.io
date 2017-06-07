@@ -34,7 +34,7 @@
   height: 50px; }
 
 .nav a {
-  color: blue;
+  color: white;
   text-decoration: none;
   font-weight: 600;
   transition: .3s;
@@ -144,4 +144,4 @@ input {
     padding: 50px 0px 150px 0px; } }
 /* Larger than Desktop HD */
 
-/*# sourceMappingURL=general.css.map */
+/*# sourceMappingURL=sassO.css.map */

@@ -3,47 +3,66 @@
   border: none;
   background: none; }
 
-.navbar-fixed {
-  top: 0;
-  z-index: 100;
-  position: fixed;
-  width: 100%;
-  transition: 2s; }
-
-.nav ul {
-  list-style-type: none;
-  margin: 0;
-  overflow: hidden; }
-
-.nav li {
-  float: left; }
-
-.nav li a {
-  display: block;
-  color: white;
-  font-weight: 600;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none; }
-
-.nav {
+.nav, .menu {
   border: 0;
-  background-color: #3A65FC;
   border-radius: 0px;
   margin-bottom: 0;
-  height: 50px; }
+  height: 50px;
+  position: fixed;
+  top: 10px;
+  left: -1110px;
+  transition: 2s; }
+  .nav .container, .menu .container {
+    width: 100%; }
+  .nav ul, .menu ul {
+    list-style-type: none;
+    margin: 0;
+    overflow: hidden; }
+  .nav li, .menu li {
+    list-style-type: none;
+    margin: 0px 0px 0px 10px;
+    overflow: hidden;
+    float: left;
+    transition: 1s; }
+    .nav li a, .menu li a {
+      display: block;
+      color: white;
+      background-color: #23060E;
+      border: 2px solid #23060E;
+      border-radius: 10px 22px;
+      font-weight: 600;
+      text-align: center;
+      padding: 10px 16px;
+      text-decoration: none;
+      transition: 0.5s; }
+    .nav li a:hover, .menu li a:hover {
+      background-color: white;
+      color: #23060E;
+      border: 2px solid #23060E;
+      border-radius: 22px 10px;
+      transition: 0.2s; }
 
-.nav a {
-  color: blue;
-  text-decoration: none;
-  font-weight: 600;
-  transition: .3s;
-  white-space: nowrap;
-  overflow: hidden;
-  float: left; }
-
-.nav a:hover {
-  transition: .3s; }
+.navbar-fixed {
+  z-index: 100;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  width: 100%;
+  transition: 2s; }
+  .navbar-fixed .container {
+    width: 100%;
+    transition: 2s; }
+  .navbar-fixed ul {
+    transition: 2s; }
+  .navbar-fixed li {
+    margin: 0px 0px 0px 30px;
+    transition: 1s; }
+    .navbar-fixed li a {
+      border-radius: 0px 0px;
+      transition: 2s; }
+    .navbar-fixed li a:hover {
+      border-radius: 0px 0px;
+      transition: 2s; }
 
 footer {
   color: white;
@@ -70,7 +89,7 @@ input {
 .ui-state-active,
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active {
-  background: #494E6B;
+  background: #23060E;
   color: white; }
 
 .ui-widget-header .ui-state-active a {
@@ -108,7 +127,7 @@ input {
 
 .work,
 .contact {
-  background-color: #494E6B;
+  background-color: #23060E;
   background-size: cover;
   color: #fff;
   padding-bottom: 5rem; }
@@ -118,6 +137,9 @@ input {
   background-size: cover;
   color: #000;
   padding-bottom: 5rem; }
+
+.container .button-primary {
+  background-color: #3E000C; }
 
 /* Larger than mobile */
 @media (min-width: 400px) {
@@ -144,4 +166,4 @@ input {
     padding: 50px 0px 150px 0px; } }
 /* Larger than Desktop HD */
 
-/*# sourceMappingURL=general.css.map */
+/*# sourceMappingURL=final.css.map */
