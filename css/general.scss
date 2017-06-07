@@ -1,6 +1,8 @@
-$link-color: white;
-$primary-color: #23060E;
-$secondary-color: #3E000C;
+$link-color: #9B7E46;
+$link-color-h: #AFD0BF;
+$nav-link: white;
+$primary-color: #F4B266;
+$secondary-color: #808F87;
 $section-size: 120px 0px 250px 0px;
 
 $sTran: 2s;
@@ -16,7 +18,7 @@ $ffTran: .2s;
     background: none;
 }
 
-.nav, .menu {
+.nav {
   
   .container {
     width: 100%;
@@ -37,7 +39,66 @@ $ffTran: .2s;
     
     a {
       display: block;
-      color: $link-color;
+      color: $nav-link;
+      background-color: $secondary-color;
+      border: 2px solid $secondary-color;
+      font-weight: 600;
+      text-align: center;
+      padding: 10px 16px;
+      text-decoration: none;
+      transition: $fTran;
+    }
+    
+    a:hover {
+      background-color: white;
+      color: $primary-color;
+      border: 2px solid $primary-color;
+      transition: $ffTran;
+    }
+  }
+  
+    border: 0;
+    //background-color: $primary-color;
+    border-radius: 0px;
+    margin-bottom: 0;
+    height: 50px;
+    position: fixed;
+    top: 10px;
+    left: -1000px;
+    transition: $sTran;
+}
+
+.navbar-fixed {
+    z-index: 100;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 100%;    
+    transition: $sTran;
+}
+
+.menu { 
+  
+  .container {
+    width: 100%;
+  }
+  
+  ul {
+    list-style-type: none;
+    margin: 0;
+    overflow: hidden;
+  }
+  
+  li {
+      list-style-type: none;
+      margin: 0px 0px 0px 10px;
+      overflow: hidden;
+      float: left;
+      transition: $aTran;
+    
+    a {
+      display: block;
+      color: $nav-link;
       background-color: $primary-color;
       border: 2px solid $primary-color;
       border-radius: 10px 22px;
@@ -62,44 +123,29 @@ $ffTran: .2s;
     border-radius: 0px;
     margin-bottom: 0;
     height: 50px;
-    position: fixed;
-    top: 10px;
-    left: -1110px;
+    position: relative;
+    left: 0px;
     transition: $sTran;
 }
 
-.navbar-fixed {
-    z-index: 100;
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    width: 100%;    
-    transition: $sTran;
-  
-  .container {
-    width: 100%;
-    transition: $sTran;
-  }
-  
-  ul {
-    transition: $sTran;
-  }
-  
-  li {
-    
-    margin: 0px 0px 0px 30px;
-    transition: $aTran;
-    
-    a {
-      border-radius: 0px 0px;
-      transition: $sTran;
-    }
-    
-    a:hover {
-      border-radius: 0px 0px;
-      transition: $sTran;
-    }
-  }
+.menu-out {
+  position: relative;
+  left: -200%;
+  transition: $sTran;
+}
+
+a, .ui-widget-content a {
+  padding-bottom: 2px;
+  border-bottom: 1px solid $link-color;
+  text-decoration: none;
+  color: $link-color;
+  transition: $aTran;
+}
+
+a:hover, .ui-widget-content a:hover {
+  color: $link-color-h;
+  border-bottom: 1px solid $link-color-h;
+  transition: $fTran;
 }
 
 footer {
@@ -109,7 +155,7 @@ footer {
 }
 
 footer a {
-    color: black;
+    color: $link-color;
 }
 
 select {
@@ -138,7 +184,7 @@ input {
 }
 
 .ui-widget-header .ui-state-active a {
-    color: white;
+    color: $nav-link;
 }
 
 #web,
