@@ -1,5 +1,7 @@
 $(document).ready(function () {
   console.log("index.js ran");
+  
+  $('.menu').removeClass('menu-out');
 
   $("#web, #software, #fun").hide();
 

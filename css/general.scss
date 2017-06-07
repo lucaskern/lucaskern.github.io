@@ -2,7 +2,7 @@ $link-color: #9B7E46;
 $link-color-h: #AFD0BF;
 $nav-link: white;
 $primary-color: #F4B266;
-$secondary-color: #808F87;
+$secondary-color: #377771;
 $section-size: 120px 0px 250px 0px;
 
 $sTran: 2s;
@@ -39,9 +39,9 @@ $ffTran: .2s;
     
     a {
       display: block;
-      color: $nav-link;
-      background-color: $secondary-color;
-      border: 2px solid $secondary-color;
+      color: $primary-color;
+      background-color: white;
+      border: 2px solid $primary-color;
       font-weight: 600;
       text-align: center;
       padding: 10px 16px;
@@ -140,6 +140,7 @@ a, .ui-widget-content a {
   text-decoration: none;
   color: $link-color;
   transition: $aTran;
+  font-weight: 800;
 }
 
 a:hover, .ui-widget-content a:hover {
@@ -214,7 +215,7 @@ input {
 
 .topic img {
     width: 158px;
-    background-color: white;
+    //background-color: white;
     padding:15px;
     border-radius: 10px;
 }
