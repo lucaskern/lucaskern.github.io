@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Kern HW3</title>
+  <script src="http://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+  <style>
+    .rate {
+      fill: lightgreen;
+      border: 1px solid black;
+      stroke: grey;
+      stroke-width: 5;
+      z-index: 0;
+    }
+    
+    .rate:hover {
+      fill: orange;
+      z-index: 10;
+    }
+    
+    .x-axis {
+      color: black;
+      stroke-width: 3px;
+    }
+  </style>
+</head>
+
+<body>
+  <script type="text/javascript">
+    
+    //create svg
+    var svg = d3.select("body")
+      .append("svg")
+      .attr("width", 1000)
+      .attr("height", 1000);
+    
+    var padding = 20;
+    
+    //load in csv data
+    d3.csv("./data/obesity_and_ed.csv", function (d) {
+      //parse columns
+      return {
+        state: d.State
+        , rate: +d["Obesity %"]
+        , education: +d["BA or higher"]
+        , stateAbbr: +d["State Abbr"]
+      };
+    //Use data
+    }, function (data) {
+      
+      //Create scale functions
+			var xScale = d3.scaleLinear()
+								 .domain([0, d3.max(data, function(d) { return d[0]; })])
+								 .range([padding, 1000 - padding * 2]);
+
+			var yScale = d3.scaleLinear()
+								 .domain([0, d3.max(data, function(d) { return d[1]; })])
+								 .range([1000 - padding, padding]);
+
+			var rScale = d3.scaleLinear()
+								 .domain([0, d3.max(data, function(d) { return d[1]; })])
+								 .range([2, 5]);
+      
+      console.log(data);
+      
+      var circle = svg
+        .selectAll('circle')
+        .data(data);
+      
+      var obesityCirc = circle
+        .enter()
+        .append("circle");
+      
+      obesityCirc.attr("cy", function (d, i) {
+        return d.education * 3;
+      });
+      obesityCirc.attr("cx", function (d, i) {
+        return i * (svg.attr("width") / 60) + (svg.attr("width") / 60) + 30;
+      });
+      obesityCirc.attr("r", function (d) {
+        return d.rate;
+      });
+      
+      //style circles
+      obesityCirc.attr("class", "rate");
+      
+      //console.log(svg.attr("width"));
+      
+      svg.append("text")             
+      .attr("transform", 
+            "translate(" + i * (svg.attr("width") / 60) + (svg.attr("width") / 60) + 30 + " ," + 
+                           (d.education * 3) + ")")
+      .style("text-anchor", "middle")
+      .text(d.state);
+    });
+    
+    
+  </script>
+</body>
+
+</html>
