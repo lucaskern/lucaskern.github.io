@@ -30,11 +30,12 @@ a {
   font-weight: 800;
 }
 
-#header p, h2 {
+#header p, h2, h5 {
     color: white;
     text-align: center;
 }
 
+    //section title
 #work h1 {
     text-align: center;
     color: white;
@@ -78,18 +79,53 @@ a {
 
 //WORK SECTION
 #work {
-    height: 400px;
-    padding: 40px 0px;
+    height: auto;
 
-    h2{
+    h2, h5 {
         color: $dg;
+    }
+
+    h5 {
+        font-weight: 200;
+    }
+
+    .content-block {
+        color: $dg;
+    }
+
+    .title-block {
+        background-color: $tl;
+    }
+
+    .work-item {
+        padding-top: 40px;
+
+        img {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .work-tech {
+            text-align: center;
+            width: 100%;
+            margin-top: 40px;
+        }
     }
 }
 
-.title-block {
-    background-color: $tl;
-}
+//FOOTER
+footer {
+    background-color: $dg;
+    padding: 10px;
 
-.content-block {
-    color: $dg;
+    a {
+        color: white;
+        font-size: 18px;
+    }
+
+    .footer-content {
+        padding: 10px;
+        text-align: center;
+        color: white;
+    }
 }
