@@ -1,4 +1,11 @@
-- contact
-	- white rectangle with email or phone icon. Hover over and slow fade to number.
-- about
-	- resume link in one column 
+Home
+	- Add all work items
+	- Mobile Styles
+Contact
+	- Create page
+	- Get working form if possible
+General
+	- Improve styling'
+	- Add animations
+	- Bring in Canvas or attention grabber
+	- Usability Testing
