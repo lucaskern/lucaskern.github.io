@@ -2,6 +2,10 @@
 $dg: #333333;
 $tl: #00a99d;
 
+$sm: 600px;
+$md: 800px;
+$lg: 1200px;
+
 //general styles
 body {
   margin: 0px;
@@ -9,10 +13,83 @@ body {
 
 //typography
 
+h1, h2, h3, h4, h5 {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+p, a {
+    font-family: 'Lato', sans-serif;
+}
+
+p {
+    font-size: 20px;
+}
+
 a {
   color: $tl;
+  font-weight: 800;
 }
+
+#header p, h2 {
+    color: white;
+    text-align: center;
+}
+
+#work h1 {
+    text-align: center;
+    color: white;
+    font-weight: 800;
+    font-size: 80px;
+    min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+//NAV
+
+.nav-item a {
+  text-transform: uppercase;
+  font-weight: 200;
+}
+
+.navbar-brand {
+  background-color: $tl;
+  margin-top: -1em;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 0px 0px 5px 5px;
+}
+
+//Top Section
 
 .intro {
   background-color: $dg;
+}
+
+#header {
+    margin: 80px auto 0px auto;
+    padding-bottom: 100px;
+}
+
+#header p {
+    margin-top: 40px;
+}
+
+//WORK SECTION
+#work {
+    height: 400px;
+    padding: 40px 0px;
+
+    h2{
+        color: $dg;
+    }
+}
+
+.title-block {
+    background-color: $tl;
+}
+
+.content-block {
+    color: $dg;
 }
