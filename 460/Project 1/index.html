@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title> Project 1 </title>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <style>
+    
+    .data-group text {
+      display: none;
+      font-size: 0px;
+      transition: 1s;
+    }
+    
+    .data-group:hover text {
+      display: block;
+      fill: white;
+      font-size: 15px;
+    }
+    
+    .data-group:hover .data-point {
+      r: 5px;
+      fill: black;
+      transition: 1s;
+    }
+    
+    .data-point {
+      transition: .5s;
+      stroke-width: 2px;
+      stroke: black;
+    }
+    
+    .normalized {
+      fill: royalblue;
+      stroke-width: 2px;
+      stroke: darkblue;
+      r: 5px;
+    }
+    
+    svg {
+      background-color: #fcefc4;
+      border: 4px solid black;
+    }
+    
+    .axis path,
+    .axis line {
+      stroke: black;
+      shape-rendering: crispEdges;
+    }
+    
+    .axis text {
+      font-family: Optima, Futura, sans-serif;
+      font-weight: bold;
+      font-size: 14px;
+      fill: black;
+    }
+    
+    .label {
+      font-size: 20px;
+      
+      font-family: sans-serif;
+    }
+    
+    #start, #sort {
+      padding: 10px;
+      background-color: lightgreen;
+      color: white;
+      width: 200px;
+      text-align: center;
+      font-family: sans-serif;
+      margin: 10px;
+      border: 2px solid darkgreen;
+    }
+
+    .desc {
+      width: 700px;
+    }
+  </style>
+</head>
+
+<body>
+<!--  <div id="start"> Toggle Normalized View </div>-->
+  <h2> CT Heroin Overdoses: Age of User and Date of Incident </h2>
+  <script type="text/javascript">
+    //The variable that will hold the data when the csv func runs
+    var dataset;
+
+    //used to separate divs
+    var barPadding = 1;
+
+    //universal padding used to keep data away from svg edges
+    var padding = 50;
+
+    //margin keeps the svg sized appropriately
+    var margin = {
+      top: 20,
+      right: 10,
+      bottom: 20,
+      left: 10
+    };
+
+    //w and h for svg that uses margin
+    var w = 800 - margin.left - margin.right;
+    var h = 700 - margin.top - margin.bottom;
+
+    //shortcuts for data column names
+    var date = "Date";
+    var age = "Age";
+    
+    //Instantiate global vars (Not necessary now but useful if I have more funcs)
+    var xScale = "";
+    var yScale = "";
+    var xAxis = "";
+    var yAxis = "";
+    var rScale = "";
+    
+    var parseTime = d3.timeParse("%m/%d/%Y");
+    
+    //Two functions to move svg elements to front or back as needed
+    d3.selection.prototype.moveToFront = function() {  
+      return this.each(function(){
+        this.parentNode.appendChild(this);
+      });
+    };
+    d3.selection.prototype.moveToBack = function() {  
+        return this.each(function() { 
+            var firstChild = this.parentNode.firstChild; 
+            if (firstChild) { 
+                this.parentNode.insertBefore(this, firstChild); 
+            } 
+        });
+    };
+
+    //store svg as var. Append to body and set up dimensions.
+    var svg = d3.select("body").append("svg")
+      .attr("width", w + margin.left + margin.right)
+      .attr("height", h + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    //used later, saves space here
+    var circles = "";
+    
+    var rowConverter = function(d) {
+      return {
+        Age: d.Age, //No conversion
+        Date: parseTime(d.Date)
+      };
+    }
+
+    //load data file passed in. Generates error if necessary
+    d3.csv("./data/CT-Drug-Deaths.csv", rowConverter, function(error, data) {
+
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(data);
+
+        //if data loads correctly then pass it to the global var
+        dataset = data;
+
+        //call Funcs
+        makeScatter();
+      }
+
+    })
+
+    function makeScatter() {
+      
+      //Scales data to width of canvas
+     xScale = d3.scaleTime()
+        .domain([
+        d3.min(dataset, function(d) { return parseTime(d.Date); }),
+        d3.max(dataset, function(d) { return parseTime(d.Date); })
+        ])
+        .range([padding, w - padding]);
+      
+      console.log(d3.min(dataset, function(d) { return parseTime(d.Date)}));
+
+      //scales data to height of canvas
+      yScale = d3.scaleLinear()
+        .domain([10, d3.max(dataset, function(d) {
+          return d[age]
+        })])
+        .range([h - padding, padding]);
+
+      //Create x and y axis
+      xAxis = d3.axisBottom(xScale)
+        .ticks(10);
+
+      yAxis = d3.axisLeft(yScale);
+
+      //create circles for each data point
+      circles = svg.selectAll("circle")
+        .data(dataset)
+        .enter()
+        .append("g")
+        .attr("class", "data-group")
+        .append("circle");
+
+      //Make circles
+      circles.attr("cx", function(d) {
+          //console.log(d[date]);
+          //console.log(parseTime("10/21/2016"));
+          //console.log((parseTime(d[date])));
+          console.log((d.Date));
+          //console.log(xScale("Sat Nov 21 2015 00:00:00 GMT-0500 (Eastern Standard Time"));
+          return xScale(d.Date);
+        })
+        .attr("cy", function(d) {
+          return yScale(d[age]);
+        })
+        .attr("r", 5)
+        .attr("fill", "lightblue")
+        .attr("class", "data-point")  
+
+/*      //Add State Abbr to datum
+      d3.selectAll(".data-group").append("text")
+        .text(function(d) {
+          return d["State Abbr"];
+        })
+        .attr("x", function(d) {
+          return xScale(d[date]);
+        })
+        .attr("y", function(d) {
+          return yScale(parseTime(d[age]));
+        })
+        .attr("font-family", "sans-serif")
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "middle")
+        
+        //Add tooltip with datum info
+        d3.selectAll(".data-group").append("title")
+          .text(function(d) { return "Date of Death: " + d[date] + "% | " + "Age: " + d[age] + "%"; });
+      
+      //Add hover and click functionality to data
+      svg.selectAll(".data-group")
+        .on('mouseover', function(d) {
+            d3.select(this).moveToFront();
+        })
+        .on('click', function(d) {
+            d3.select(this).moveToBack();
+        });*/
+      
+      //add x-axis
+      svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(0, " + (h - padding) + ")")
+        .call(xAxis);
+
+      //add y-axis
+      svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(50,0)")
+        .call(yAxis);
+      
+      //Add X-axis label
+      svg.append("text")
+        .attr("class", "label")
+        .text("Date of Death")
+        .attr("x", w / 2 - padding)
+        .attr("y", h)
+        .attr("alignment-baseline", "middle");
+      
+      //Add Y-axis label
+      svg.append("text")
+        .attr("class", "label")
+        .text("Age")
+        .attr("x", "10")
+        .attr("y", h / 2)
+        .attr("alignment-baseline", "middle")
+        .attr("text-anchor", "middle")
+        .attr("transform", "rotate(270, 5," + h / 2 + ")");
+    }
+
+    //toggle class on button click
+    d3.select("#start")
+      .on("click", function() {
+        console.log("clicked");
+
+        circles.classed("normalized", !circles.classed("normalized"));
+      });
+
+  </script>
+  <div class="desc">
+    <h1> Lucas Kern Project 1</h1>
+    <p> Note: Unknown error has stopped progress of this visualization. Dates do not convert to the xScale as they should. </p>
+    <p> Data: I chose a report from data.worldbank.org/data-catalog/ on all of the accidental drug overdoses in Connecticut </p>
+    <p> Manipulation: I removed a lot of unecessary columns and used Open Refine to clean the remaining up. I then cleared out all non heroin overdoses
+        using a regular expression which significantly reduced the number of records. </p>
+    <p> Chart Type: I went with a scatter plot so I could show the relationship between overdoses and time. And hopefully see a
+        downward trend for all ages but especially on the younger side.</p>
+    <p> Notes: Obviously not what I wanted to see from this project. I have no idea what is wrong I checked dozens of resources and followed the books
+      example on time scales several times. I originally started by trying to do a histogram of the ages but that too I could not complete. (╯°□°)╯︵ ┻━┻ 
+    </p>
+  </div>
+</body>
+
+</html>
