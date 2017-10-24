@@ -218,6 +218,7 @@
           return xScale(d.Date);
         })
         .attr("cy", function(d) {
+        console.log(d[date]);
           return yScale(d[age]);
         })
         .attr("r", 6)
@@ -231,7 +232,7 @@
       d3.selectAll(".data-group").append("title")
         .text(
           function(d) {
-            var day = d[date].getDay();
+            var day = d[date].getDate();
             var month = d[date].getMonth();
             var year = d[date].getFullYear();
 
