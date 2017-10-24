@@ -3,7 +3,7 @@ $link-color-h: #AFD0BF;
 $nav-link: white;
 $primary-color: #F4B266;
 $secondary-color: #377771;
-$section-size: 120px 0px 250px 0px;
+$section-size: 120px 0px 150px 0px;
 
 $sTran: 2s;
 $aTran: 1s;
@@ -16,6 +16,11 @@ $ffTran: .2s;
 .ui-widget-header {
     border: none;
     background: none;
+}
+
+.borderB {
+  border-bottom: 2px solid white;
+  padding-bottom: 100px;
 }
 
 .nav {
@@ -225,17 +230,11 @@ input {
 }
 
 .work,
-.contact {
+.contact,
+.about {
     background-color: $primary-color;
     background-size: cover;
     color: #fff;
-    padding-bottom: 5rem;
-}
-
-.about {
-    background-color: white;
-    background-size: cover;
-    color: #000;
     padding-bottom: 5rem;
 }
 

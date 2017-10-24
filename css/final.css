@@ -3,6 +3,10 @@
   border: none;
   background: none; }
 
+.borderB {
+  border-bottom: 2px solid white;
+  padding-bottom: 100px; }
+
 .nav {
   border: 0;
   border-radius: 0px;
@@ -165,16 +169,11 @@ input {
   margin: 3em 0px 2em 0px; }
 
 .work,
-.contact {
+.contact,
+.about {
   background-color: #F4B266;
   background-size: cover;
   color: #fff;
-  padding-bottom: 5rem; }
-
-.about {
-  background-color: white;
-  background-size: cover;
-  color: #000;
   padding-bottom: 5rem; }
 
 .container .button-primary {
@@ -199,7 +198,7 @@ input {
     font-size: 30px; }
 
   .welcome {
-    padding: 120px 0px 250px 0px; }
+    padding: 120px 0px 150px 0px; }
 
   .contact {
     padding: 50px 0px 150px 0px; } }
