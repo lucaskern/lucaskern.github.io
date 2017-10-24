@@ -1,61 +1,74 @@
 //variables
-$dg: #333333;
-$tl: #00a99d;
+$dk: #2c3e50;
+$lt: #ecf0f1;
+$pm: #e74c3c;
+$sd: #3498db;
 
 $sm: 600px;
 $md: 800px;
 $lg: 1200px;
-
 //general styles
 body {
-  margin: 0px;
+  background-color: $lt;
+  margin: 0;
 }
 
 //typography
-
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
   font-family: 'Roboto Condensed', sans-serif;
 }
 
-p, a {
-    font-family: 'Lato', sans-serif;
+p,
+a {
+  font-family: 'Lato', sans-serif;
 }
 
 p {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 a {
-  color: $tl;
+  color: $pm;
   font-weight: 800;
+  transition: .5s;
+  &:hover {
+    transition: .5s;
+    color: $sd;
+  }
 }
 
-#header p, h2, h5 {
-    color: white;
-    text-align: center;
+#header p,
+h2,
+h5 {
+  color: $dk;
+  text-align: center;
 }
 
-    //section title
+//section title
 #work h1 {
-    text-align: center;
-    color: white;
-    font-weight: 800;
-    font-size: 80px;
-    min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
-    justify-content: center;
-    display: flex;
-    align-items: center;
+  text-align: center;
+  color: white;
+  font-weight: 800;
+  font-size: 80px;
+  min-height: 100%;
+  /* Fallback for browsers do NOT support vh unit */
+  justify-content: center;
+  display: flex;
+  align-items: center;
 }
 
 //NAV
-
 .nav-item a {
   text-transform: uppercase;
   font-weight: 200;
 }
 
 .navbar-brand {
-  background-color: $tl;
+  background-color: $pm;
   margin-top: -1em;
   color: white;
   padding: 15px 20px;
@@ -63,69 +76,83 @@ a {
 }
 
 //Top Section
-
 .intro {
-  background-color: $dg;
+  background-color: $lt;
 }
 
 #header {
-    margin: 80px auto 0px auto;
-    padding-bottom: 100px;
+  margin: 80px auto 0px auto;
+  padding-bottom: 100px;
 }
 
 #header p {
-    margin-top: 40px;
+  margin-top: 40px;
 }
 
 //WORK SECTION
 #work {
-    height: auto;
-
-    h2, h5 {
-        color: $dg;
+  height: auto;
+  h2,
+  h5 {
+    color: $lt;
+  }
+  h5 {
+    font-weight: 200;
+  }
+  .content-block {
+    color: $lt;
+    background-color: $sd;
+  }
+  .title-block {
+    background-color: $pm;
+  }
+  .work-item {
+    padding-top: 40px;
+    img {
+      width: 100%;
+      margin-bottom: 20px;
     }
-
-    h5 {
-        font-weight: 200;
+    .work-tech {
+      text-align: center;
+      width: 100%;
+      margin-top: 40px;
     }
+  }
+}
 
-    .content-block {
-        color: $dg;
-    }
+//Form
+label {
+  color: $dk;
+}
 
-    .title-block {
-        background-color: $tl;
-    }
+.btn-primary {
+  background-color: $pm;
+  border-color: $pm;
+}
 
-    .work-item {
-        padding-top: 40px;
+#contact-form {
+  margin: 20px auto;
+}
 
-        img {
-            width: 100%;
-            margin-bottom: 20px;
-        }
+//WORK
 
-        .work-tech {
-            text-align: center;
-            width: 100%;
-            margin-top: 40px;
-        }
-    }
+.work-title {
+  height: 600px;
+  background-color: $pm;
 }
 
 //FOOTER
 footer {
-    background-color: $dg;
+  background-color: $lt;
+  padding: 10px;
+  width: 100%;
+  a {
+    color: $dk;
+    font-size: 18px;
+  }
+  .footer-content {
     padding: 10px;
-
-    a {
-        color: white;
-        font-size: 18px;
-    }
-
-    .footer-content {
-        padding: 10px;
-        text-align: center;
-        color: white;
-    }
+    text-align: center;
+    color: white;
+  }
 }
