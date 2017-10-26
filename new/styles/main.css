@@ -2,6 +2,9 @@ body {
   background-color: #ecf0f1;
   margin: 0; }
 
+.hide {
+  display: none; }
+
 h1,
 h2,
 h3,
@@ -30,17 +33,6 @@ h5 {
   color: #2c3e50;
   text-align: center; }
 
-#work h1 {
-  text-align: center;
-  color: white;
-  font-weight: 800;
-  font-size: 80px;
-  min-height: 100%;
-  /* Fallback for browsers do NOT support vh unit */
-  justify-content: center;
-  display: flex;
-  align-items: center; }
-
 .nav-item a {
   text-transform: uppercase;
   font-weight: 200; }
@@ -63,7 +55,11 @@ h5 {
   margin-top: 40px; }
 
 #work {
-  height: auto; }
+  height: 110vh; }
+  #work h1 {
+    color: white;
+    font-weight: 800;
+    font-size: 80px; }
   #work h2,
   #work h5 {
     color: #ecf0f1; }
@@ -73,7 +69,19 @@ h5 {
     color: #ecf0f1;
     background-color: #3498db; }
   #work .title-block {
-    background-color: #e74c3c; }
+    background-color: #e74c3c;
+    display: flex;
+    align-items: center;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    justify-content: center; }
+  #work .bullet-btn {
+    margin-right: 10px;
+    float: left;
+    padding: 10px;
+    background-color: white; }
+    #work .bullet-btn.selected {
+      background-color: #3498db; }
   #work .work-item {
     padding-top: 40px; }
     #work .work-item img {

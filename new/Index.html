@@ -8,11 +8,11 @@
   <title>Lucas Kern</title>
   <meta name="description" content="Lucas Kern's Portfolio">
   <meta name="author" content="Lucas Kern">
-
-  <script src="js/main.js"></script>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-
+  <script src="js/main.js"></script>
+  
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
@@ -45,75 +45,113 @@
     </nav>
 
     <div id="header" class="container">
-        <div class="row">
-            <div class="col-1">
+      <div class="row">
+        <div class="col-1">
 
-            </div>
-            <div class="col-10">
-                <h2>Creative Developer</h2>
-                <p>
-                    My name is Lucas Kern, and I'm a creative developer. Thank you for visiting my website! I am currently studying at the Rochester Institute of Technology (BS: New Media Interactive Development).
-
-                    Please, take a minute to look at some of my projects, or learn a bit about me, and if you find something that we have in common, I'd love to sit down and chat about it.
-
-                    *Note this website is currently under development
-                </p>
-            </div>
-            <div class="col-1">
-
-            </div>
         </div>
+        <div class="col-10">
+          <h2>Creative Developer</h2>
+          <p>
+            My name is Lucas Kern, and I'm a creative developer. Thank you for visiting my website! I am currently studying at the Rochester Institute of Technology (BS: New Media Interactive Development). Please, take a minute to look at some of my projects, or learn a bit about me, and if you find something that we have in common, I'd love to sit down and chat about it. *Note this website is currently under development
+          </p>
+        </div>
+        <div class="col-1">
+
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="container-fluid">
-        <div id="work" class="row">
-            <div class="title-block col-6">
-                <h1> WORK </h1>
+    <div id="work" class="row">
+      <div class="title-block col-6">
+        <h1> WORK </h1>
+        <div class="bullet-menu"> 
+          <span>
+            <div class="bullet-btn selected" title="Seneca"> </div>
+            <div class="bullet-btn" title="EagleDream"> </div> 
+            <div class="bullet-btn" title="Shorts"> </div> 
+          </span> </div>
+      </div>
+      <div class="content-block col-6">
+        <div class="work-item container Seneca">
+          <div class="row">
+            <div class="col-2">
             </div>
-            <div class="content-block col-6">
-                <div class="container">
-                    <div id="work" class="row">
-                        <div class="col-2">
-                        </div>
-                        <div class="work-item col-8">
-                            <img src="assets/work-zoo.png"/>
-                            <h2> <a href="http://senecaparkzoo.org/"> Seneca Park Zoo </a></h2>
-                            <h5> | Lead Developer | </h5>
-                            <p>
-                                Tasked with building a new website for The Rochester City Zoo utilizing (among other technologies) WordPress, PHP, Amazon W3, Google Analytics, and Version control (Git)
-                                <br  /> <br />
-                                Over 150 pages were adapted and overhauled for the launch. I worked extensively with our in-house designers, zoo staff and management as well as small, focused team of developers.
-                            </p>
+            <div class="col-8">
+              <img src="assets/work-zoo.png" />
+              <h2> <a href="http://senecaparkzoo.org/"> Seneca Park Zoo </a></h2>
+              <h5> | Lead Developer | </h5>
+              <p>
+                Tasked with building a new website for The Rochester City Zoo utilizing (among other technologies) WordPress, PHP, Amazon W3, Google Analytics, and Version control (Git)
+                <br /> <br /> Over 150 pages were adapted and overhauled for the launch. I worked extensively with our in-house designers, zoo staff and management as well as small, focused team of developers.
+              </p>
 
-                            <p class="work-tech"> WordPress / Git / AW3 / JavaScript / Google Analytics </p>
-                        </div>
-                        <div class="col-2">
-                        </div>
-                    </div>
-                </div>
+              <p class="work-tech"> WordPress / Git / AW3 / JavaScript / Google Analytics </p>
             </div>
+            <div class="col-2">
+            </div>
+          </div>
         </div>
+        <div class="work-item container EagleDream hide">
+          <div class="row">
+            <div class="col-2">
+            </div>
+            <div class="col-8">
+              <img src="assets/work-zoo.png" />
+              <h2> <a href="http://senecaparkzoo.org/"> EagleDream </a></h2>
+              <h5> | Developer | </h5>
+              <p>
+                Tasked with building a new website for The Rochester City Zoo utilizing (among other technologies) WordPress, PHP, Amazon W3, Google Analytics, and Version control (Git)
+                <br /> <br /> Over 150 pages were adapted and overhauled for the launch. I worked extensively with our in-house designers, zoo staff and management as well as small, focused team of developers.
+              </p>
+
+              <p class="work-tech"> WordPress / Git / AW3 / JavaScript / Google Analytics </p>
+            </div>
+            <div class="col-2">
+            </div>
+          </div>
+        </div>
+        <div class="work-item container Shorts hide">
+          <div class="row">
+            <div class="col-2">
+            </div>
+            <div class="col-8">
+              <img src="assets/work-zoo.png" />
+              <h2> <a href="http://senecaparkzoo.org/"> Shorts Tool </a></h2>
+              <h5> | Lead Developer | </h5>
+              <p>
+                Tasked with building a new website for The Rochester City Zoo utilizing (among other technologies) WordPress, PHP, Amazon W3, Google Analytics, and Version control (Git)
+                <br /> <br /> Over 150 pages were adapted and overhauled for the launch. I worked extensively with our in-house designers, zoo staff and management as well as small, focused team of developers.
+              </p>
+
+              <p class="work-tech"> WordPress / Git / AW3 / JavaScript / Google Analytics </p>
+            </div>
+            <div class="col-2">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
   </div>
 
   <footer>
-      <div class="container-fluid">
-          <div class="footer-content row">
-              <div class="col 2">
+    <div class="container-fluid">
+      <div class="footer-content row">
+        <div class="col 2">
 
-              </div>
-              <div class="col 4">
-                  <h5> Information </h5>
-                  <span><a href="http://lucaskern.github.io"> Home </a>  |
+        </div>
+        <div class="col 4">
+          <span><a href="http://lucaskern.github.io"> Home </a>  |
                   <a href="http://github.com/lucaskern"> Github </a>  |
                   <a href="./Kern-Resume.pdf"> Resume </a></span>
-              </div>
-              <div class="col 2">
+        </div>
+        <div class="col 2">
 
-              </div>
-          </div>
+        </div>
       </div>
+    </div>
   </footer>
 
 </body>

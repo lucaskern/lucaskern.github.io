@@ -1,18 +1,15 @@
-$( window ).ready(function() {
+$(window).ready(function () {
   
-    var wHeight = $(window).height();
-
-    $('.slide')
-      .height(wHeight)
-      .scrollie({
-        scrollOffset : -50,
-        scrollingInView : function(elem) {
-                   
-          var bgColor = elem.data('background');
-          
-          $('body').css('background-color', bgColor);
-          
-        }
-      });
-
-  });
+    $(".bullet-btn").click(function() {
+      $(".bullet-btn").removeClass("selected");
+      $(this).addClass("selected");
+      
+      var title = $(this).attr("title");
+      console.log(title);
+      
+      $(".work-item").addClass("hide");
+      $('.'+title).removeClass("hide");
+    });
+});
+  
+    
