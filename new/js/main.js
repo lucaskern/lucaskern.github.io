@@ -1,4 +1,11 @@
-$(window).ready(function () {
+$(document).ready(function () {
+  
+    $(".navbar-brand").animate({
+        top: "+0px"
+      }, 500);
+  
+    $(".work-item").hide();
+    $(".Seneca").toggle();
   
     $(".bullet-btn").click(function() {
       $(".bullet-btn").removeClass("selected");
@@ -7,8 +14,9 @@ $(window).ready(function () {
       var title = $(this).attr("title");
       console.log(title);
       
-      $(".work-item").addClass("hide");
-      $('.'+title).removeClass("hide");
+      $(".work-item").hide();
+      
+      $("."+title).toggle();
     });
 });
   
