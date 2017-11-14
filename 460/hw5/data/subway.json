@@ -1,0 +1,69 @@
+{
+  "name": "Grand Central Station",
+  "children": [
+    {
+      "name": "Queens",
+      "children": [
+        {
+          "name": "Gantry Plaza",
+          "status": "On Schedule"
+        },
+        {
+          "name": "Queensboro Bridge",
+          "status": "Delayed"
+        }
+			]
+	    },
+    {
+      "name": "Brooklyn",
+      "status": "Delayed"
+    },
+    {
+      "name": "Manhattan",
+      "children": [
+        {
+          "name": "Empire State Building",
+          "status": "On Schedule"
+        },
+        {
+          "name": "Ellis Island Ferry",
+          "status": "On Schedule"
+        },
+        {
+          "name": "NYSE",
+          "status": "Delayed"
+        },
+        {
+          "name": "Central Park",
+          "children": [
+            {
+              "name": "Swan Pond",
+              "status": "On Schedule"
+            },
+            {
+              "name": "Museum of Nat. Hist.",
+              "status": "Delayed"
+            }
+			]
+	    }
+	    	]
+	    },
+    {
+      "name": "Bronx",
+      "children": [
+        {
+          "name": "Harlem",
+          "status": "On Schedule"
+        },
+        {
+          "name": "Tremont",
+          "status": "On Schedule"
+        },
+        {
+          "name": "Pelham Bay",
+          "status": "Delayed"
+        }
+	    	]
+	    }
+	]
+}
