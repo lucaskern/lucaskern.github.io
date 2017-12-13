@@ -1,268 +1,314 @@
 'use strict'
-const app = {
-  canvas: undefined,
-  ctx: undefined,
-  firstRun: true,
-  accurate: false,
-  playBool: true,
-  frames: 100,
-  framesLimit: 10,
-  xSpot: 0,
-  grid: [],
-  temp: [],
-  width: 20,
-  height: 20
-    //size of each cell in px
+var canvas = undefined;
+var ctx = undefined;
+var firstRun = true;
+var accurate = false;
+var playBool = true;
+var frames = 100;
+var framesLimit = 2;
+var xSpot = 0;
+var grid = [];
+var temp = [];
+var width = 30;
+var height = 9;
+//size of each cell in px
+var cellSize = 35;
+//create an audioCtx  
+var audCtx = undefined;
+// create an oscillator
+var osc = undefined;
 
-    ,
-  cellSize: 40
-    //max amount of times a cell can be consecutively alive before dying.
+var playNote = function (frequency, attack, decay, cmRatio, index, oscType) {
 
-    ,
-  maxAge: 10
-    //how fast it changes color (higher : quicker)
+    //lowers gain of overall sound to minimize distortion
+    let compressor = audCtx.createDynamicsCompressor();
 
-    ,
-  colorRate: 6
-    //color values for bg
-
-    ,
-  colorMode: "default"
-    //color of cells
-
-    ,
-  colorVal: null
-    //live neighbor count
-
-    ,
-  liveCount: 0
-    //create an audioCtx  
-
-    ,
-  audCtx: undefined
-    // create an oscillator
-
-    ,
-  osc: undefined,
-  playNote: function (frequency, attack, decay, cmRatio, index) {
-    //let audCtx = new AudioContext();
     // create our primary oscillator
-    const carrier = this.audCtx.createOscillator();
-    carrier.type = 'sine';
+    let carrier = audCtx.createOscillator();
+    carrier.type = oscType;
     carrier.frequency.value = frequency;
+
     // create an oscillator for modulation
-    const mod = this.audCtx.createOscillator();
-    mod.type = 'sine';
+    let mod = audCtx.createOscillator();
+    mod.type = oscType;
+
     // The FM synthesis formula states that our modulators 
     // frequency = frequency * carrier-to-modulation ratio.
     mod.frequency.value = frequency * cmRatio;
-    const modGainNode = this.audCtx.createGain();
+    let modGainNode = audCtx.createGain();
+
     // The FM synthesis formula states that our modulators 
     // amplitude = frequency * index
     modGainNode.gain.value = frequency * index;
     mod.connect(modGainNode);
+
     // plug the gain node into the frequency of
     // our oscillator
+
     modGainNode.connect(carrier.frequency);
-    const envelope = this.audCtx.createGain();
-    envelope.gain.linearRampToValueAtTime(1, this.audCtx.currentTime + attack);
-    envelope.gain.linearRampToValueAtTime(0, this.audCtx.currentTime + attack + decay);
+    let envelope = audCtx.createGain();
+
+    //Ramp up over attack time, fade out over decay time
+    envelope.gain.linearRampToValueAtTime(1, audCtx.currentTime + attack);
+    envelope.gain.linearRampToValueAtTime(0, audCtx.currentTime + attack + decay);
+
+    //Connect nodes and then attach audio context
     carrier.connect(envelope);
-    envelope.connect(this.audCtx.destination);
-    mod.start(this.audCtx.currentTime);
-    carrier.start(this.audCtx.currentTime);
-    mod.stop(this.audCtx.currentTime + attack + decay);
-    carrier.stop(this.audCtx.currentTime + attack + decay);
-    //this.osc.close();
-  },
-  init: function () {
-      console.log("app.main.init() called");
-      // initialize properties
-      this.canvas = document.querySelector('canvas');
-      this.canvas.width = this.width * this.cellSize;
-      this.canvas.height = this.height * this.cellSize;
-      this.ctx = this.canvas.getContext('2d');
-      //set up controls
-      this.controls();
-      console.log("init ran");
-      this.audCtx = new AudioContext();
-      // create an oscillator
-      this.osc = this.audCtx.createOscillator();
-      // change waveform of oscillator
-      this.osc.type = 'sawtooth';
-      // start the oscillator running
-      this.osc.start();
-      //set up grid on first init only
-      if (this.firstRun) {
-        this.gridSetup();
-        this.firstRun = false;
-      }
-      //this.playNote(880, .01, 1, 1.5307, 1);
-      this.update();
-    }
-    //create grid using default or user modified values
+    envelope.connect(compressor);
+    compressor.connect(audCtx.destination);
 
-    ,
-  gridSetup: function () {
-      this.grid = [];
-      this.temp = [];
-      //create canvas at appropriate size
-      this.canvas.width = this.width * this.cellSize;
-      this.canvas.height = this.height * this.cellSize;
-      this.ctx.fillStyle = "black";
-      this.ctx.fillRect(0, 0, 3000, 3000);
-      //instantiate spaces in arrays
-      for (let y = 0; y < this.height; y++) {
-        this.grid[y] = [[]];
-        this.temp[y] = [[]];
-        for (let x = 0; x < this.width; x++) {
-          //fill with random values 
-          this.grid[y][x] = [0];
-          this.temp[y][x] = [0];
-          //create border
-          if (x == 0 || y == 0 || x == this.width - 1 || y == this.height - 1) {
-            this.grid[y][x] = 0;
-          }
+    //start and play notes for specified time and stop it.
+    mod.start(audCtx.currentTime);
+    carrier.start(audCtx.currentTime);
+    mod.stop(audCtx.currentTime + attack + decay);
+    carrier.stop(audCtx.currentTime + attack + decay);
+
+    //End this note to mitigate distortion with many notes
+    //osc.stop(audCtx.currentTime + attack + decay);
+}
+var init = function () {
+    console.log("app.main.init() called");
+
+    $("#tabs").tabs();
+
+    // initialize properties
+    canvas = document.querySelector('canvas');
+    canvas.width = width * cellSize;
+    canvas.height = height * cellSize;
+    ctx = canvas.getContext('2d');
+    //set up controls
+    controls();
+    console.log("init ran");
+    audCtx = new AudioContext();
+    // create an oscillator
+    //osc = audCtx.createOscillator();
+    // change waveform of oscillator
+    //osc.type = 'sawtooth';
+    // start the oscillator running
+    //osc.start();
+    //set up grid on first init only
+    if (firstRun) {
+        gridSetup();
+        firstRun = false;
+    }
+    //playNote(880, .01, 1, 1.5307, 1);
+    update();
+}
+//create grid using default or user modified values
+var gridSetup = function () {
+    grid = [];
+    temp = [];
+    //create canvas at appropriate size
+    canvas.width = width * cellSize;
+    canvas.height = height * cellSize;
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, 3000, 3000);
+    //instantiate spaces in arrays
+    for (let y = 0; y < height; y++) {
+        grid[y] = [[]];
+        temp[y] = [[]];
+        for (let x = 0; x < width; x++) {
+            //fill with random values 
+            grid[y][x] = [0];
+            temp[y][x] = [0];
+            //create border
+            if (x == 0 || y == 0 || x == width - 1 || y == height - 1) {
+                grid[y][x] = 0;
+            }
         }
-      }
     }
-    //set up value controllers
-
-    ,
-  getMousePos: function (canvas, evt) {
-    var rect = this.canvas.getBoundingClientRect();
+}
+//set up value controllers
+var getMousePos = function (canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
     return {
-      x: Math.floor((evt.clientX - rect.left) / this.cellSize),
-      y: Math.floor((evt.clientY - rect.top) / this.cellSize)
+        x: Math.floor((evt.clientX - rect.left) / cellSize),
+        y: Math.floor((evt.clientY - rect.top) / cellSize)
     };
-  },
-  clickEffect: function (xCoord, yCoord) {
-
-    if (this.grid[yCoord][xCoord][0] == 0) {
-      let freqVal = parseFloat(document.getElementById("freq").value);
-      let attackVal = parseFloat(document.getElementById("attack").value);
-      let decayVal = parseFloat(document.getElementById("decay").value);
-      let cmVal = parseFloat(document.getElementById("cm").value);
-      let indexVal = parseFloat(document.getElementById("indexV").value);
-
-      //this.playNote(freqVal, attackVal, decayVal, cmVal, indexVal);
-
-      this.grid[yCoord][xCoord][0] = 1;
-      this.grid[yCoord][xCoord][1] = freqVal;
-      this.grid[yCoord][xCoord][2] = attackVal;
-      this.grid[yCoord][xCoord][3] = decayVal;
-      this.grid[yCoord][xCoord][4] = cmVal;
-      this.grid[yCoord][xCoord][5] = indexVal;
+}
+var clickEffect = function (xCoord, yCoord) {
+    if (grid[yCoord][xCoord][0] == 0) {
+        let freqVal = parseFloat(document.getElementById("freq").value);
+        let attackVal = parseFloat(document.getElementById("attack").value);
+        let decayVal = parseFloat(document.getElementById("decay").value);
+        let cmVal = parseFloat(document.getElementById("cm").value);
+        let indexVal = parseFloat(document.getElementById("indexV").value);
+        let oscType = document.getElementById("osc").value;
+        //playNote(freqVal, attackVal, decayVal, cmVal, indexVal);
+        console.log(oscType);
+        //Create array of sound vals at loc
+        grid[yCoord][xCoord][0] = 1;
+        grid[yCoord][xCoord][1] = freqVal;
+        grid[yCoord][xCoord][2] = attackVal;
+        grid[yCoord][xCoord][3] = decayVal;
+        grid[yCoord][xCoord][4] = cmVal;
+        grid[yCoord][xCoord][5] = indexVal;
+        grid[yCoord][xCoord][6] = oscType;
     } else {
-      for (let i = 0; i < this.grid[yCoord][xCoord].length; i++){
-       this.grid[yCoord][xCoord][i] = 0;
-      }
+        for (let i = 0; i < grid[yCoord][xCoord].length; i++) {
+            grid[yCoord][xCoord][i] = 0;
+        }
     }
-
     //console.log(xCoord + "," + yCoord);
-  },
-  controls: function () {
-    let thisRef = this;
+}
+var controls = function () {
     document.querySelector("canvas").addEventListener('click', function (evt) {
-      var mousePos = thisRef.getMousePos(this.canvas, evt);
-      var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
-      //console.log(message);
-      thisRef.clickEffect(mousePos.x, mousePos.y);
+        var mousePos = getMousePos(canvas, evt);
+        var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+        //console.log(message);
+        clickEffect(mousePos.x, mousePos.y);
+        console.log("canvas click");
     }, false);
     document.querySelector("#play").onclick = function (e) {
-      thisRef.play();
+        play();
     };
     document.querySelector("#forward").onclick = function (e) {
-      thisRef.forward();
+        forward();
+    };
+    document.querySelector("#rand").onclick = function (e) {
+        randomize();
     };
     document.querySelector("#speed").onchange = function (e) {
-      thisRef.framesLimit = e.target.value;
-      document.querySelector("#speedVal").value = e.target.value;
+        framesLimit = e.target.value;
+        document.querySelector("#speedVal").value = e.target.value;
     };
-  },
-  runAutomata: function () {
-    // loop through every cell
-    // look at cell neighbors and count live ones
-    // determine next cell state based on neighbor count
-    // set temp [y][x] -> new cell state
-    this.liveCount = 0;
-    //loop through and count live neighbors
-    for (let y = 1; y < this.height - 1; y++) {
-      for (let x = 1; x < this.width - 1; x++) {}
-    }
-    // after for loop swap grid and temp arrays
-    let swap = this.grid;
-    this.grid = this.temp;
-    //swap if conway rules is selected by user
-    if (this.accurate) {
-      this.temp = swap;
-    }
-  },
-  draw: function (xSpot) {
-    this.ctx.fillStyle = 'black';
-    this.ctx.strokeStyle = "white";
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-    this.ctx.fillStyle = 'red';
-    for (let y = 1; y < this.height - 1; y++) {
-      for (let x = 1; x < this.width - 1; x++) {
-        if (this.grid[y][x][0] == 1) {
-          //fill and stroke rects
-          this.ctx.fillRect(x * this.cellSize, y * this.cellSize, this.cellSize, this.cellSize)
+    var notes = document.getElementsByClassName("noteFreq");
 
+    for (var i = 0; i < notes.length; i++) {
+        notes[i].addEventListener('click', function (event) {
+            var freqEl = document.querySelector("#freq");
+            console.log(event);
+            freqEl.value = event.target.innerText;
+        }, false);
+    }
+}
+
+var randomize = function () {
+    var randomF = randomRange(100, 1000).toFixed(2);
+    var randomA = randomRange(0, .5).toFixed(2);
+    var randomD = randomRange(0, .5).toFixed(2);
+    var randomC = randomRange(0, 10).toFixed(2);
+    var randomI = randomRange(0, 10).toFixed(2);
+
+    document.getElementById("freq").value = randomF;
+    document.getElementById("attack").value = randomA;
+    document.getElementById("decay").value = randomD;
+    document.getElementById("cm").value = randomC;
+    document.getElementById("indexV").value = randomI;
+}
+
+var randomRange = function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+var draw = function (xSpot) {
+    ctx.fillStyle = 'white';
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 3;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    for (let y = 1; y < height - 1; y++) {
+        for (let x = 1; x < width - 1; x++) {
+            if (grid[y][x][0] == 1) {
+                if (grid[y][x][1] < 31) {
+                    ctx.fillStyle = "rgb(35,0,0)";
+                } else if (grid[y][x][1] < 66) {
+                    ctx.fillStyle = "rgb(70,0,0)";
+                } else if (grid[y][x][1] < 130) {
+                    ctx.fillStyle = "rgb(105,0,0)";
+                } else if (grid[y][x][1] < 261) {
+                    ctx.fillStyle = "rgb(140,0,0)";
+                } else if (grid[y][x][1] < 523) {
+                    ctx.fillStyle = "rgb(175,0,0)";
+                } else if (grid[y][x][1] < 1046) {
+                    ctx.fillStyle = "rgb(210,0,0)";
+                } else {
+                    ctx.fillStyle = "rgb(245,0,0)";
+                }
+
+
+                switch (grid[y][x][6]) {
+                    case "sine":
+                        ctx.beginPath();
+                        ctx.arc(x * cellSize + cellSize / 2, y * cellSize + cellSize / 2, cellSize / 2.5, 0, 2 * Math.PI);
+                        ctx.closePath();
+                        ctx.fill();
+                        break;
+                    case "triangle":
+                        ctx.beginPath();
+                            ctx.moveTo(x * cellSize, y * cellSize + cellSize);
+                            ctx.lineTo(x * cellSize + cellSize / 2, y * cellSize);
+                            ctx.lineTo(x * cellSize + cellSize, y * cellSize + cellSize);
+                            ctx.closePath();
+                        ctx.fill();
+                        break;
+                    case "sawtooth":
+                        ctx.beginPath();
+                            ctx.moveTo(x * cellSize, y * cellSize + cellSize);
+                            ctx.lineTo(x * cellSize + cellSize / 4, y * cellSize);
+                            ctx.lineTo(x * cellSize + cellSize / 2, y * cellSize + cellSize / 1.5);
+                            ctx.lineTo(x * cellSize + cellSize / 1.38, y * cellSize);
+                            ctx.lineTo(x * cellSize + cellSize, y * cellSize + cellSize);
+                            ctx.closePath();
+                        ctx.fill();
+                        break;
+                    case "square":
+                        ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                        break;
+
+                }
+
+            }
         }
-      }
     }
-
-    for (let y = 1; y < this.height - 1; y++) {
-      for (let x = 1; x < this.width - 1; x++) {
-        this.ctx.strokeRect(x * this.cellSize, y * this.cellSize, this.cellSize, this.cellSize);
-      }
+    for (let y = 1; y < height - 1; y++) {
+        for (let x = 1; x < width - 1; x++) {
+            ctx.strokeRect(x * cellSize, y * cellSize, cellSize, cellSize);
+        }
     }
-
-    
-    for (let y = 0; y < this.height; y++) {
-      if (this.grid[y][xSpot][0] == 1) {
-        this.playNote(this.grid[y][xSpot][1], this.grid[y][xSpot][2], this.grid[y][xSpot][3], this.grid[y][xSpot][4], this.grid[y][xSpot][5]);
-
-      }
-      this.ctx.fillStyle = "rgba(40, 240, 10, 0.4)";
-      this.ctx.fillRect(xSpot * this.cellSize, y * this.cellSize, this.cellSize, this.cellSize);
+    for (let y = 0; y < height; y++) {
+        if (grid[y][xSpot][0] == 1) {
+            playNote(grid[y][xSpot][1], grid[y][xSpot][2], grid[y][xSpot][3], grid[y][xSpot][4], grid[y][xSpot][5], grid[y][xSpot][6]);
+        }
+        ctx.fillStyle = "rgba(40, 840, 120, 0.6)";
+        ctx.fillRect(xSpot * cellSize, y * cellSize, cellSize, cellSize);
     }
-  },
-  play: function () {
-    if (this.playBool) {
-      this.playBool = false;
+}
+var play = function () {
+    if (playBool) {
+        playBool = false;
     } else {
-      this.playBool = true;
+        playBool = true;
     }
     console.log("play");
-  },
-  forward: function () {
-    //this.draw();
-    this.xSpot++;
-  },
-  update: function () {
-    this.animationID = requestAnimationFrame(this.update.bind(this));
-    //this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+}
+var forward = function () {
+    //draw();
+    xSpot++;
+}
+var update = function () {
+    var animationID = requestAnimationFrame(update.bind());
+    //ctx.clearRect(0, 0, canvas.width, canvas.height);
     //only draw once threshold is passed
-    if (this.playBool) {
-      if (this.frames >= this.framesLimit) {
-        this.draw(this.xSpot);
-        this.frames = 0;
-
-        if (this.xSpot < this.width - 1) {
-          this.xSpot = this.xSpot + 1;
-        } else {
-          this.xSpot = 0;
+    if (playBool) {
+        if (frames >= framesLimit) {
+            draw(xSpot);
+            frames = 0;
+            if (xSpot < width - 1) {
+                xSpot = xSpot + 1;
+            } else {
+                xSpot = 0;
+            }
         }
-      }
-      this.frames++;
-    } else if (!this.playBool) {
-      this.draw(this.xSpot);
+        frames++;
+    } else if (!playBool) {
+        draw(xSpot);
+
     }
     //stop tracking fps
     //window.requestAnimationFrame(update);
-  }
 }
-module.exports = app;
+window.addEventListener('load', function () {
+    console.log("window.onload ran");
+    init();
+});
