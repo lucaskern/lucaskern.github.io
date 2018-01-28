@@ -15,6 +15,10 @@ body {
     font-family: 'Roboto Condensed', sans-serif;
 }
 
+p, li {
+    font-size: 120%;
+}
+
 /* JqueryUI styles */
 
 .ui-widget-header {
@@ -206,6 +210,20 @@ input {
     color: black;
 }
 
+.section-title {
+    background-color: white;
+    min-width: 450px;
+    max-width: 30%;
+    margin-bottom: 4em;
+    h2 {
+        color: $primary-color;
+        margin: 0px 0px 10px 20px;
+        padding-top: 10px;
+        font-size: 100px;
+        font-weight: 800;
+    }
+}
+
 .centered {
     display: block;
     margin-left: auto;
@@ -229,7 +247,8 @@ input {
 }
 
 .welcome {
-    margin: 3em 0px 2em 0px;
+    margin: 3em 0px 4em 0px;
+    height: 100%;
 }
 
 .work,
@@ -238,7 +257,7 @@ input {
     background-color: $primary-color;
     background-size: cover;
     color: #fff;
-    padding-bottom: 5rem;
+    padding-bottom: 10em;
 }
 
 .container .button-primary {
