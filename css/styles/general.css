@@ -1,0 +1,209 @@
+body {
+  font-family: 'Roboto Condensed', sans-serif; }
+
+/* JqueryUI styles */
+.ui-widget-header {
+  border: none;
+  background: none; }
+
+.borderB {
+  border-bottom: 2px solid white;
+  padding-bottom: 100px; }
+
+.nav {
+  border: 0;
+  border-radius: 0px;
+  margin-bottom: 0;
+  height: 50px;
+  position: fixed;
+  top: 10px;
+  left: -1000px;
+  transition: 2s; }
+  .nav .container {
+    width: 100%; }
+  .nav ul {
+    list-style-type: none;
+    margin: 0;
+    overflow: hidden; }
+  .nav li {
+    list-style-type: none;
+    margin: 0px 0px 0px 10px;
+    overflow: hidden;
+    float: left;
+    transition: 1s; }
+    .nav li a {
+      display: block;
+      color: #1C1C1C;
+      background-color: white;
+      border: 2px solid #1C1C1C;
+      font-weight: 600;
+      text-align: center;
+      padding: 10px 16px;
+      text-decoration: none;
+      transition: 0.5s; }
+    .nav li a:hover {
+      background-color: white;
+      color: #1C1C1C;
+      border: 2px solid #1C1C1C;
+      transition: 0.2s; }
+
+.navbar-fixed {
+  z-index: 100;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  width: 100%;
+  transition: 2s; }
+
+.menu {
+  border: 0;
+  border-radius: 0px;
+  margin-bottom: 0;
+  height: 50px;
+  position: relative;
+  left: 0px;
+  transition: 2s; }
+  .menu .container {
+    width: 100%; }
+  .menu ul {
+    list-style-type: none;
+    margin: 0;
+    overflow: hidden; }
+  .menu li {
+    list-style-type: none;
+    margin: 0px 0px 0px 10px;
+    overflow: hidden;
+    float: left;
+    transition: 1s; }
+    .menu li a {
+      display: block;
+      color: white;
+      background-color: #1C1C1C;
+      border: 2px solid #1C1C1C;
+      border-radius: 10px 22px;
+      font-weight: 600;
+      text-align: center;
+      padding: 10px 16px;
+      text-decoration: none;
+      transition: 0.5s; }
+    .menu li a:hover {
+      background-color: white;
+      color: #1C1C1C;
+      border: 2px solid #1C1C1C;
+      border-radius: 22px 10px;
+      transition: 0.2s; }
+
+.menu-out {
+  position: relative;
+  left: -200%;
+  transition: 2s; }
+
+a,
+.ui-widget-content a {
+  padding-bottom: 2px;
+  border-bottom: 1px solid #737373;
+  text-decoration: none;
+  color: #737373;
+  transition: 1s;
+  font-weight: 800; }
+
+a:hover,
+.ui-widget-content a:hover {
+  color: #C4C9CF;
+  border-bottom: 1px solid #C4C9CF;
+  transition: 0.5s; }
+
+footer {
+  color: white;
+  padding-top: 20px;
+  text-align: center; }
+
+footer a {
+  color: #737373; }
+
+select {
+  color: black; }
+
+input {
+  color: black; }
+
+#tabs {
+  margin: 0px 0px 30px 0px; }
+
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
+  background: white; }
+
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active {
+  background: #1C1C1C;
+  color: white; }
+
+.ui-widget-header .ui-state-active a {
+  color: white; }
+
+#web,
+#software,
+#fun {
+  margin-top: 2em;
+  background-color: white;
+  color: black; }
+
+.centered {
+  display: block;
+  margin-left: auto;
+  margin-right: auto; }
+
+.subtitle {
+  margin-top: 5%;
+  text-align: center;
+  font-size: 20px; }
+
+.topic {
+  text-align: center; }
+
+.topic img {
+  width: 158px;
+  padding: 15px;
+  border-radius: 10px; }
+
+.welcome {
+  margin: 3em 0px 2em 0px; }
+
+.work,
+.contact,
+.about {
+  background-color: #1C1C1C;
+  background-size: cover;
+  color: #fff;
+  padding-bottom: 5rem; }
+
+.container .button-primary {
+  background-color: #FA492B; }
+
+/* Larger than mobile */
+@media (min-width: 400px) {
+  .topic img {
+    width: 158px;
+    margin-top: 20px; } }
+
+/* Larger than phablet (also point when grid becomes active) */
+/* Larger than tablet */
+@media (min-width: 750px) {
+  .nav a {
+    font-size: 1.3em; }
+  .topic img {
+    width: 128px; } }
+
+/* Larger than desktop */
+@media (min-width: 1000px) {
+  .subtitle {
+    font-size: 30px; }
+  .welcome {
+    padding: 120px 0px 150px 0px; }
+  .contact {
+    padding: 50px 0px 150px 0px; } }
+
+/* Larger than Desktop HD */
