@@ -1,0 +1,61 @@
+To Do/ Questions
+
+COMPLETED
+1. Generate tiles in one section, and draw in another
+    a. call generate once
+    b. call draw every frame
+
+COMPLETED
+2. Restrict movement to ground tiles and objects
+
+NOT NEEDED
+3. Add score counter
+	a. when all treasure is picked up, regenerate level
+
+
+//COMPLETED
+4. Drill
+	a. allows one stone wall to be hit
+
+
+//COMPLETED
+5. Enemy
+	a. Simple enemy that moves in a random direction every couple of seconds
+    
+6. Return an array of values from can move, that includes true or false, and the block to be hit
+    a. execute proper actions when certain blocks hit
+    
+7. Show where enemy is going to move
+    
+//COMPLETED
+8. Change overworld generation from random to islands
+
+//COMPLETED
+9. Add a store
+    a. Either floating and moving or on a land block
+    b. can upgrade pickax, health, and ship models
+
+
+INDEX
+
+BLOCKS
+
+Dungeon
+null - background
+0 - Player
+1 - Normal Block
+2 - Chest
+3 - Enemy
+
+OverWorld
+null - water
+0 - player
+1 - land
+2 - dungeon
+4 - shop
+5 - closed dungeon
+
+SOUNDS
+0 - move
+1 - cant move
+2 - pickup

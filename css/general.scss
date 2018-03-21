@@ -1,5 +1,5 @@
 $link-color: #737373;
-$link-color-h: #C4C9CF;
+$link-color-h: #FA492B;
 $nav-link: white;
 //$primary-color: #F4B266;
 $primary-color: #1C1C1C;
@@ -255,7 +255,7 @@ input {
 .contact,
 .about {
     background-color: $primary-color;
-    background-size: cover;
+    background-size: 80%;
     color: #fff;
     padding-bottom: 10em;
 }
@@ -263,6 +263,10 @@ input {
 .container .button-primary {
     background-color: $secondary-color;
 }
+
+.svg-inline--fa {
+        display:none;
+    }
 
 /* Larger than mobile */
 
@@ -289,6 +293,11 @@ input {
     .topic img {
         width: 128px;
     }
+    
+        .svg-inline--fa {
+        display: inline;
+    }
+
 }
 
 
@@ -304,6 +313,7 @@ input {
     .contact {
         padding: 50px 0px 150px 0px;
     }
+    
 }
 
 

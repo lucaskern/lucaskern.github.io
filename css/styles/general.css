@@ -112,8 +112,8 @@ a,
 
 a:hover,
 .ui-widget-content a:hover {
-  color: #C4C9CF;
-  border-bottom: 1px solid #C4C9CF;
+  color: #FA492B;
+  border-bottom: 1px solid #FA492B;
   transition: 0.5s; }
 
 footer {
@@ -192,12 +192,15 @@ input {
 .contact,
 .about {
   background-color: #1C1C1C;
-  background-size: cover;
+  background-size: 80%;
   color: #fff;
   padding-bottom: 10em; }
 
 .container .button-primary {
   background-color: #FA492B; }
+
+.svg-inline--fa {
+  display: none; }
 
 /* Larger than mobile */
 @media (min-width: 400px) {
@@ -211,7 +214,9 @@ input {
   .nav a {
     font-size: 1.3em; }
   .topic img {
-    width: 128px; } }
+    width: 128px; }
+  .svg-inline--fa {
+    display: inline; } }
 
 /* Larger than desktop */
 @media (min-width: 1000px) {

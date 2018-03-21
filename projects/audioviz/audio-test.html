@@ -1,0 +1,642 @@
+<!doctype html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Oleo+Script" rel="stylesheet">
+    <style type="text/css">
+        #title p {
+            color: white;
+            font-size: 64px;
+            font-family: 'Oleo Script', cursive;
+            margin: 0px;
+            text-align: center;
+            -webkit-user-select: none;
+            /* Chrome all / Safari all */
+            -moz-user-select: none;
+            /* Firefox all */
+            -ms-user-select: none;
+            /* IE 10+ */
+            user-select: none;
+            /* Likely future */
+        }
+        
+        #player {
+            width: 900px;
+            height: 1080px;
+            background: rgba(80, 80, 80, 05);
+            padding: 10px;
+            margin: 20px;
+        }
+        
+        #player #audio-holder {
+            width: auto;
+            margin: 20px auto 10px auto;
+            display: block;
+            padding: 0;
+        }
+        
+        #player #audio-holder audio {
+            width: 800px;
+            background: 'black';
+            margin: auto;
+            display: block;
+            padding: 0;
+        }
+        
+        #status {
+            color: white;
+            font-size: 32px;
+            text-align: center;
+            font-family: 'Oleo Script', cursive;
+        }
+        
+        #player canvas {
+            width: 800px;
+            height: 600px;
+            padding: 0;
+            margin: 15px auto 10px auto;
+            display: block;
+            
+            cursor: pointer;
+        }
+        
+        #player #controls-box {
+            width: 800px;
+            height: 252px;
+            background: black;
+            margin: 20px auto 0px auto;
+            border: 2px solid white;
+        }
+        
+        #controls-box label {
+            color: white;
+            margin: 20px;
+            font-family: sans-serif;
+            font-weight: 600;
+        }
+        
+        #controls-box label select {
+            margin: 10px;
+        }
+        
+        #visual-controls label {}
+        
+        #audio-controls {
+            margin-top: 20px;
+            background: white;
+            height: 35px;
+        }
+        
+        #audio-controls label {
+            color: black;
+        }
+        
+        #effectSelect > option {
+            padding: 10px;
+        }
+        
+        #fullscreen {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: black;
+            color: white;
+            border: none;
+        }
+        
+        #button-holder {
+            text-align: center;
+        }
+    </style>
+    <script>
+        (function () {
+            "use strict";
+            var audio = new Audio();
+            //audio.src = "track7.mp3";
+            audio.controls = true;
+            audio.loop = true;
+            audio.autoplay = true;
+            audio.volume = 0.4;
+            var canvas, ctx, source, source2, context, filterContext, analyser, fbc_array, bars, barX, barW, barH, grd, mouseColor, filter;
+            var bgMode = true
+                , rotate = false
+                , partyColors = false
+                , threshold = false
+                , showCircles = false
+                , showBars = true
+                , dragging = false, clearFrame = true, waveform = false;
+            var rotSpeed = 30
+                , bgColor = "black"
+                , barNum = 90
+                , barHeight = 4
+                , thresholdRange = 100
+                , circleStartX = 0
+                , circleStartY = 0, frameCounter = 0;
+            var gainVal = 25
+                , freqVal = 750;
+            var soundFile = "track1.mp3";
+            //color schemes
+            var flag1 = '#002395'
+                , flag2 = 'white'
+                , flag3 = '#ED2939';
+            var france1 = '#002395'
+                , france2 = 'white'
+                , france3 = '#ED2939';
+            var irish1 = 'green'
+                , irish2 = 'white'
+                , irish3 = '#FF883E';
+            var mex1 = 'green'
+                , mex2 = 'white'
+                , mex3 = 'red';
+            var nigeria1 = '#FAFF5E'
+                , nigeria2 = '#FFE55E'
+                , nigeria3 = '#FFD85E';
+            window.addEventListener("load", init, false);
+
+            function init() {
+                document.getElementById('audio-holder').appendChild(audio);
+                context = new AudioContext();
+                analyser = context.createAnalyser();
+                //filterContext = new AudioContext();
+                filter = context.createBiquadFilter();
+                canvas = document.getElementById('visualizer');
+                ctx = canvas.getContext('2d');
+                source = context.createMediaElementSource(audio);
+                //source = filterContext.createMediaElementSource(audio);
+                source.connect(filter);
+                //filter.connect(context.destination);
+                source.connect(analyser);
+                analyser.connect(context.destination);
+                //check values of controls and call update
+                Controls();
+                canvas.onmousedown = doMouseDown;
+                canvas.onmouseup = doMouseUp;
+                canvas.onmousemove = doMouseMove;
+                grd = ctx.createLinearGradient(0, 0, 200, 200);
+                // load and play default sound into audio element
+                playStream(audio, soundFile);
+                Update();
+            }
+
+            function Controls() {
+                
+                //Change song
+                document.querySelector("#trackSelect").onchange = function (e) {
+                    playStream(audio, e.target.value);
+                    console.log(e.target.value);
+                    //nameChange(this);
+                };
+                
+                //change color scheme
+                document.querySelector("#flagPicker").onchange = function (e) {
+                    PaletteChange(e.target.value);
+                };
+                
+                //change background
+                document.querySelector("#bgMode").onclick = function (e) {
+                    if (bgMode) {
+                        bgMode = false;
+                    }
+                    else {
+                        bgMode = true;
+                    }
+                };
+                
+                //Rotation setting
+                document.querySelector("#rotate").onclick = function (e) {
+                    if (rotate) {
+                        rotate = false;
+                        RotateCanvas();
+                    }
+                    else {
+                        rotate = true;
+                        RotateCanvas();
+                    }
+                };
+                
+                //Rotation speed
+                document.querySelector("#rotSpeed").onchange = function (e) {
+                    rotSpeed = e.target.value;
+                };
+                
+                //Bar count
+                document.querySelector("#barNum").onchange = function (e) {
+                    barNum = e.target.value;
+                };
+                
+                //Bar height
+                document.querySelector("#barHeight").onchange = function (e) {
+                    barHeight = e.target.value;
+                };
+                
+                //Clear frame every update
+                document.querySelector("#clearFrame").onclick = function (e) {
+                    if (clearFrame) {
+                        clearFrame = false;
+                    }
+                    else {
+                        clearFrame = true;
+                    }
+                };
+                
+                //What shape style
+                document.querySelector("#shapePicker").onchange = function (e) {
+                    if (showBars) {
+                        showBars = false;
+                        showCircles = true;
+                    }
+                    else if (showCircles) {
+                        showBars = true;
+                        showCircles = false;
+                    }
+                };
+                
+                //Waveform or frequency
+                document.querySelector("#waveform").onclick = function (e) {
+                    if (waveform) {
+                        waveform = false;
+                    }
+                    else {
+                        waveform = true;
+                    }
+                };
+                
+                //Rapid color changing
+                document.querySelector("#party").onclick = function (e) {
+                    if (partyColors) {
+                        partyColors = false;
+                    }
+                    else {
+                        partyColors = true;
+                    }
+                };
+                
+                //Threshold value
+                document.querySelector("#thresholdSize").onchange = function (e) {
+                    thresholdRange = e.target.value;
+                };
+                
+                //Threshold switch
+                document.querySelector("#thresholdSwitch").onclick = function (e) {
+                    if (threshold) {
+                        threshold = false;
+                    }
+                    else {
+                        threshold = true;
+                    }
+                };
+                
+                //Audio effect
+                document.querySelector("#effectSelect").onchange = function (e) {
+                    FilterChange(e.target.value);
+                };
+                
+                //Frequency value
+                document.querySelector("#filterFreq").onchange = function (e) {
+                    filter.frequency.value = e.target.value;
+                };
+                
+                //Gain value
+                document.querySelector("#filterGain").onchange = function (e) {
+                    filter.gain.value = e.target.value;
+                };
+                
+                //Full screen button
+                document.querySelector("#fullscreen").onclick = function(){
+				    requestFullscreen(canvas);
+                };
+            }
+            
+            //Helpers
+            
+            //Updates bar colors based on scheme
+            function PaletteChange(country) {
+                if (country == 'france') {
+                    flag1 = france1;
+                    flag2 = france2;
+                    flag3 = france3;
+                }
+                else if (country == 'ireland') {
+                    flag1 = irish1;
+                    flag2 = irish2;
+                    flag3 = irish3;
+                }
+                else if (country == 'italy') {
+                    flag1 = mex1;
+                    flag2 = mex2;
+                    flag3 = mex3;
+                }
+                else if (country == 'nigeria') {
+                    flag1 = nigeria1;
+                    flag2 = nigeria2;
+                    flag3 = nigeria3;
+                }
+            }
+
+            //Changes the audio effects by connecting and disconnecting 
+            function FilterChange(effect) {
+                if (effect == "none") {
+                    filter.disconnect(context.destination);
+                }
+                else if (effect == "treble") {
+                    filter.connect(context.destination);
+                    filter.type = 'highshelf';
+                }
+                else if (effect == "bass") {
+                    filter.connect(context.destination);
+                    filter.type = 'lowshelf';
+                }
+                else if (effect == "peaking") {
+                    filter.connect(context.destination);
+                    filter.type = 'peaking';
+                }
+            }
+
+            //Generate a string color with RGB max vals passed in
+            function makeColor(rVal, gVal, bVal) {
+                var randRed = Math.floor((Math.random() * rVal) + 1);
+                var randGreen = Math.floor((Math.random() * gVal) + 1);
+                var randBlue = Math.floor((Math.random() * bVal) + 1);
+                var color = 'rgb(' + randRed + ',' + randGreen + ',' + randBlue + ')';
+                return color;
+            }
+            
+            // FULL SCREEN MODE
+            //From audio-viz 2
+		function requestFullscreen(element) {
+			if (element.requestFullscreen) {
+			  element.requestFullscreen();
+			} else if (element.mozRequestFullscreen) {
+			  element.mozRequestFullscreen();
+			} else if (element.mozRequestFullScreen) { // camel-cased 'S' was changed to 's' in spec
+			  element.mozRequestFullScreen();
+			} else if (element.webkitRequestFullscreen) {
+			  element.webkitRequestFullscreen();
+			}
+			// .. and do nothing if the method is not supported
+		};
+            
+            //Interaction Functions 
+            //based on drawing app functions
+            function doMouseDown(e) {
+                dragging = true;
+                //get loc of mouse in canvas coords
+                var mouse = getMouse(e);
+            }
+
+            function doMouseUp(e) {
+                var mouse = getMouse(e);
+                dragging = false;
+            }
+
+            function doMouseMove(e) {
+                if (!dragging) return;
+                var mouse = getMouse(e);
+                mouseColor = makeColor(mouse.x / 2, mouse.y / 2, 120);
+            }
+
+            function getMouse(e) {
+                var mouse = {}
+                mouse.x = e.pageX - e.target.offsetLeft;
+                mouse.y = e.pageY - e.target.offsetTop;
+                return mouse;
+            }
+            
+            //UPDATE ANIMATION
+            
+            //Help from link below for basic visualization
+            //https://www.youtube.com/watch?v=IBHpSkGZtNM
+            function Update() {
+                window.requestAnimationFrame(Update);
+                fbc_array = new Uint8Array(analyser.frequencyBinCount);
+                analyser.getByteFrequencyData(fbc_array);
+                
+                //Changes type of visualizer
+                if (waveform) {
+                    analyser.getByteTimeDomainData(fbc_array); // waveform data  
+                }
+                
+                //Does the screen clear each frame? If so what color(s) is drawn
+                if (clearFrame) {
+                    ctx.clearRect(-canvas.width, -canvas.height, canvas.width * 2, canvas.height * 2);
+                    if (bgMode == false) {
+                        grd.addColorStop(0, makeColor(255, 255, 255));
+                        grd.addColorStop(1, "black");
+                        ctx.fillStyle = grd;
+                    }
+                    else if (dragging) {
+                        ctx.fillStyle = mouseColor;
+                    }
+                    else ctx.fillStyle = 'black';
+                    
+                     ctx.fillRect(-canvas.width, -canvas.height, canvas.width * 4, canvas.height * 4);
+                }
+
+                ctx.save();
+                
+                //Set outer glow of bars
+                ctx.globalAlpha = 1;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 0;
+                ctx.shadowBlur = 13; 
+                
+                //controls height and width of bars
+                bars = barNum;
+                barW = 2;
+                
+                //Displays bar visualizer if option is selected
+                if (showBars) {
+                    //draws the bars in three seperate colors
+                    for (var i = 0; i < bars; i++) {
+                        barH = -(fbc_array[i] / barHeight);
+                        barX = 15 + i * 3;
+                        if (i < bars / 3) {
+                            ctx.shadowColor = flag1;
+                            ctx.fillStyle = flag1;
+                        }
+                        else if (i > bars * 0.33 && i <= bars * 0.66) {
+                            ctx.shadowColor = flag2;
+                            ctx.fillStyle = flag2;
+                        }
+                        else if (i < bars && i > bars * 0.66) {
+                            ctx.shadowColor = flag3;
+                            ctx.fillStyle = flag3;
+                        }
+                        ctx.fillRect(barX, canvas.height / 2, barW, barH);
+                    }
+                    //draws the reflected bars
+                    for (var i = 0; i < bars; i++) {
+                        barH = -(fbc_array[i] / barHeight);
+                        barX = 15 + i * 3;
+                        if (i < bars / 3) {
+                            ctx.shadowColor = flag1;
+                            ctx.fillStyle = flag1;
+                        }
+                        else if (i > bars * 0.33 && i <= bars * 0.66) {
+                            ctx.shadowColor = flag2;
+                            ctx.fillStyle = flag2;
+                        }
+                        else if (i < bars && i > bars * 0.66) {
+                            ctx.shadowColor = flag3;
+                            ctx.fillStyle = flag3;
+                        }
+                        ctx.fillRect(barX, canvas.height / 2, barW, -barH);
+                    }
+                }
+                ctx.restore();
+                
+                //Draws circles (if selected) in a similar fashion to bars
+                if (showCircles) {
+                    for (var i = bars; i > 0; i--) {
+                        ctx.fillStyle = makeColor(0, 0, 250);
+                        if (partyColors) {
+                            ctx.fillStyle = makeColor(255, 255, 255);
+                        }
+                        ctx.beginPath();
+                        ctx.arc(75 + i * 2, canvas.height / 2, (fbc_array[i] / 4), 0, Math.PI * 2)
+                        ctx.fill();
+                    }
+                    ctx.stroke();
+                }
+                
+                //Change section color 10 times per second if party mode is on
+                if (frameCounter % 6 == 0) {
+                    if (partyColors) {
+                        flag1 = makeColor(255, 255, 255);
+                        flag2 = makeColor(255, 255, 255);
+                        flag3 = makeColor(255, 255, 255);
+                    }
+                }
+                
+                frameCounter++;
+                ManipulatePixels();
+            }
+            
+            //Controls canvas rotation and threshold effect
+            function ManipulatePixels() {
+                if (rotate) {
+                    RotateCanvas();
+                }
+                var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                var data = imageData.data;
+                var length = data.length;
+                var width = imageData.width;
+                for (var i = 0; i < length; i += 4) {
+                    if (threshold) {
+                        for (var i = 0; i < data.length; i += 4) {
+                            var r = data[i];
+                            var g = data[i + 1];
+                            var b = data[i + 2];
+                            var v = (0.2126 * r + 0.7152 * g + 0.0722 * b >= thresholdRange) ? 255 : 0;
+                            data[i] = data[i + 1] = data[i + 2] = v
+                        }
+                    }
+                }
+                ctx.putImageData(imageData, 0, 0);
+            }
+            
+            //Rotates canvas at user specified speed
+            function RotateCanvas() {
+                ctx.translate(canvas.width / 2, canvas.height / 2);
+                ctx.rotate(Math.PI / rotSpeed);
+                ctx.translate(-canvas.width / 2, -canvas.height / 2);
+            }
+
+            function playStream(audioElement, path) {
+                audio.src = path;
+                audio.play();
+                audio.volume = 0.4;
+            }
+        }());
+    </script>
+</head>
+
+<body>
+    <div id="player">
+        <div id="title">
+            <p>Lucas Kern's Audio Viz </p>
+        </div>
+        <canvas id="visualizer"> </canvas>
+        <div id="audio-holder"> </div>
+        <div id="status"> </div>
+        <div id="controls-box">
+            <div id="visual-controls">
+                <label>Track:
+                    <select id="trackSelect">
+                        <option value="track1.mp3">Rhodz - Morning Rush</option>
+                        <option value="track2.mp3">Mountain Dew - The Clancy Brothers</option>
+                        <option value="track3.mp3">J'y Suis Jamais Alle - Yann Tiersen</option>
+                        <option value="track4.mp3">ABBA - Mama Mia</option>
+                    </select>
+                </label>
+                <br/>
+                <label> Color Scheme:
+                    <select id="flagPicker">
+                        <option value="france"> France </option>
+                        <option value="ireland"> Ireland </option>
+                        <option value="italy"> Italy </option>
+                        <option value="nigeria"> Lightning </option>
+                    </select>
+                </label>
+                <label> Static BG:
+                    <input id="bgMode" type="checkbox" checked> </label>
+                <label> Party Colors:
+                    <input id="party" type="checkbox"> </label>
+                <br/>
+                <label> Rotate:
+                    <input id="rotate" type="checkbox"> </label>
+                <label> Rotate Speed:
+                    <input id="rotSpeed" type="range" name="rotSlider" value="30" min="0" max="100" oninput="rotSpeedVal.value = rotSpeed.value">
+                    <output name="rotSpeedVal" id="rotSpeedVal">30</output>
+                </label>
+                <br/>
+                <label> Bar #:
+                    <input id="barNum" type="range" name="barSlider" value="90" min="0" max="150" oninput="barNumVal.value = barNum.value">
+                    <output name="barNumVal" id="barNumVal">90</output>
+                </label>
+                <label> Bar Height:
+                    <input id="barHeight" type="range" name="heightSlider" value="4" min="1" max="20" oninput="barHeightVal.value = barHeight.value">
+                    <output name="barHeightVal" id="barHeightVal">4</output>
+                </label>
+                <br/>
+                <label> Shape Type:
+                    <select id="shapePicker">
+                        <option value="bars"> Bars </option>
+                        <option value="circles"> Circles </option>
+                    </select>
+                </label>
+                <label> Waveform:
+                    <input id="waveform" type="checkbox"> </label>
+                <label> Clear Frame:
+                    <input id="clearFrame" type="checkbox" checked> </label>
+                <br/>
+                <label> Threshold:
+                    <input type="checkbox" id="thresholdSwitch"> </label>
+                <label> Threshold:
+                    <input id="thresholdSize" type="range" name="thresholdSlider" value="50" min="0" max="150" oninput="thresholdSizeVal.value = thresholdSize.value">
+                    <output name="thresholdSliderVal" id="thresholdSizeVal">50</output>
+                </label>
+            </div>
+            <div id="audio-controls">
+                <label> Audio Effects </label>
+                <select id="effectSelect">
+                    <option value="none">None</option>
+                    <option value="bass">Bass Boost</option>
+                    <option value="treble">Treble Boost</option>
+                    <option value="peaking">Mids Boost</option>
+                </select>
+                <label> Frequency:
+                    <input id="filterFreq" type="range" name="freqSlider" value="750" min="0" max="2000" oninput="freqValOut.value = filterFreq.value">
+                    <output name="freqValOut" id="freqValOut">750</output>
+                </label>
+                <label> Gain:
+                    <input id="filterGain" type="range" name="gainSlider" value="25" min="0" max="50" oninput="gainValOut.value = filterGain.value">
+                    <output name="gainValOut" id="gainValOut">25</output>
+                </label>
+            </div>
+        </div>
+        <div id="button-holder">
+            <button id="fullscreen">Enter Full Screen</button>
+        </div>
+</body>
+
+</html>

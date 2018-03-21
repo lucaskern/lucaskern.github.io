@@ -1,0 +1,15 @@
+Functionality
+	make tints and shades not a part of the main color array
+	save palettes locally
+	Complementary color generation
+	*Jump to end of array on new color gen
+		fixes label errors
+	make a bar or visual element for all colors, easier to navigate
+	Hex options		
+
+Visuals
+	change label color based on curr color
+	restyle palette box
+		hide by default, animate in on click
+	buttons for controls as well
+	add links to my stuff

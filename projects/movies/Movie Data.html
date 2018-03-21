@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)https://people.rit.edu/lk1800/movieAPI.html -->
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href='http://fonts.googleapis.com/css?family=Coming+Soon' rel='stylesheet' type='text/css'>
+    
+    <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch|Fredoka+One|Lobster|Oleo+Script|Righteous" rel="stylesheet">
+    
+    <title>Movie Data</title>
+    
+    <!-- Import jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js">
+    </script>
+    
+    <script>
+        "use strict";
+        
+        //The movie database api info
+        var tmdb_URL = "https://api.themoviedb.org/3/search/movie?api_key="
+        var tmdb_API_KEY = "5625a10d9ea51ef8ace8773bf47cf0d2";
+        var searchString = "&language=en-US&query="
+        var tmdbValue;
+        
+        //taste kid api info
+        var taste_URL = "https://www.tastekid.com/api/similar?type="
+        var taste_Type = "movies";
+        var taste_URL_END = "&k=85962-MovieInf-I8ETYG5D&q=";
+        
+        //var taste_API_KEY = "85962-MovieInf-I8ETYG5D";
+        var tasteValue;
+        
+        //init num of titles to show
+        var resultNum = 3;
+        
+        window.onload = init;
+
+        function init() {
+            document.querySelector("#search").onclick = function () {
+                getData();
+            }
+            
+            //update search type for recomendations
+            document.querySelector("#resultType").onchange = function (e) {
+                switch  (e.target.value) {
+                        case "movies":
+                            taste_Type = "movies";
+                            break;
+                        case "books":
+                            taste_Type = "books";
+                            break;
+                        case "music":
+                            taste_Type = "music";
+                            break;
+                        case "games":
+                            taste_Type = "games";
+                            break;
+                }
+                
+                //console.log(e.target.value);
+                //console.log(taste_Type);
+            }
+            
+            //change number of results to load
+            document.querySelector("#resultNum").onchange = function (e) {
+                resultNum = e.target.value;
+            }
+        }
+        
+        //get movie database info
+        function getData() {
+            var url = tmdb_URL;
+            url += tmdb_API_KEY;
+            url += searchString;
+            
+            tmdbValue = document.querySelector("#searchterm").value;
+            tmdbValue = tmdbValue.trim();
+            
+            if (tmdbValue.length < 1) return;
+            
+            document.querySelector("#dynamicContent").innerHTML = "<b>Searching for " + tmdbValue + "</b>";
+            tmdbValue = encodeURI(tmdbValue);
+            
+            url += tmdbValue;
+            
+            $("#content").fadeOut(1000);
+            $.ajax({
+                dataType: "json"
+                , url: url
+                , data: null
+                , success: jsonLoaded
+            });
+        }
+        
+        //Gett tastekid info, send data to callbackfunc
+        function getTasteKid(movieTitle, callBackFunc) {
+            var url = taste_URL;
+            url += taste_Type;
+            url += taste_URL_END;
+            
+            movieTitle = encodeURI(movieTitle);
+            url += movieTitle;
+            
+            //console.log("loading " + url);
+            $.ajax({
+                dataType: "jsonp"
+                , url: url
+                ,  success: function (data) {
+                    //get string parsed version of data
+                    var reccList = tasteJsonLoaded(data);
+                    
+                    //send data to be inserted into page
+                    callBackFunc(reccList);
+                    
+                    //console.log(reccList);
+                }
+            });
+        }
+
+        //Parse taste kid data
+        function tasteJsonLoaded(obj) {
+            //console.log("tasteJSON ran");
+            //console.log("obj = " + obj);
+            //console.log("obj stringified = " + JSON.stringify(obj));
+            
+            if (obj.error) {
+                var status = obj.status;
+                var description = obj.description;
+                document.querySelector("#dynamicContent").innerHTML = "<h3><b>Error!</b></h3>" + "<p><i>" + status + "</i><p>" + "<p><i>" + description + "</i><p>";
+                $("#dynamicContent").fadeIn(500);
+                return;
+            }
+            if (obj.total_items == 0) {
+                var status = "No results found";
+                document.querySelector("#dynamicContent").innerHTML = "<p><i>" + status + "</i><p>" + "<p><i>";
+                $("#dynamicContent").fadeIn(500);
+                return;
+            }
+            
+            var allReccs = obj.Similar.Results;
+
+            var reccString = "<div class='descHead'> Recommendations </div> ";
+            
+            for (var i = 0; i < 5; i++) {
+                var recc = allReccs[i];
+                var title = recc.Name;
+                reccString += "<h3>" + title + "</h3>";
+            }
+            
+            return reccString;
+        }
+
+        //Parse data, call for recommendations, build content
+        function jsonLoaded(obj) {
+            //console.log("obj = " + obj);
+            //console.log("obj stringified = " + JSON.stringify(obj));
+            
+            if (obj.error) {
+                var status = obj.status;
+                var description = obj.description;
+                document.querySelector("#dynamicContent").innerHTML = "<h3><b>Error!</b></h3>" + "<p><i>" + status + "</i><p>" + "<p><i>" + description + "</i><p>";
+                $("#dynamicContent").fadeIn(500);
+                return;
+            }
+            if (obj.total_items == 0) {
+                var status = "No results found";
+                document.querySelector("#dynamicContent").innerHTML = "<p><i>" + status + "</i><p>" + "<p><i>";
+                $("#dynamicContent").fadeIn(500);
+                return;
+            }
+            
+            var allMovies = obj.results;
+            var titles = [];
+
+            var bigString = "";
+            bigString += " <div class='movies'>";
+            
+            //go through each movie, assemble html, ask for taste kid data
+            for (var i = 0; i <= resultNum - 1; i++) {
+                var movie = allMovies[i];
+                //console.log(movie);
+                
+                var title = movie.title;
+                
+                titles[i] = title;
+                
+                var description = movie.overview;
+                description = description.substring(0, 300);
+                
+                var poster = movie.poster_path;
+                
+                if (poster != null) {
+                    var line = "<div class='movieDiv fade-in one'>";
+                
+                    line += "<div class='title'>" + title + "</div>";
+                    line += "<div class='poster'> <img src='https://image.tmdb.org/t/p/w300" + poster + "'/> </div>";
+                    
+                
+                    if (description != null) {
+                        line += "<div class='descriptionBox'> <div class='descHead'> Description </div> <div class='description'> " + description + "... </div> </div>";
+                    }
+                
+                    line+=  "<div class='reccList fade-in two'> </div>";
+                    
+                    //console.log(line);
+                }
+                
+                line += "</div>";
+                bigString += line;
+                //console.log(bigString);
+            }
+            
+            bigString += "</div>";
+            //console.log(bigString);
+            
+            document.querySelector("#dynamicContent").innerHTML = bigString;
+            $("#dynamicContent").fadeIn(500);
+            
+            for (var i = 0; i < titles.length; i++) 
+            {
+               addReccs(titles[i], i); 
+            }
+            
+        }
+        
+        //get taste kid data and add to existing html
+        function addReccs(titleList, count) {
+           //console.log(titleList);
+            
+            getTasteKid(titleList, function(reccList) {
+                reccList = reccList.toString();
+               //console.log(reccList);
+                
+                var divs = document.getElementsByClassName("reccList");
+                
+                divs[count].innerHTML = reccList;
+            });
+        }
+    </script>
+    
+    <style>
+        * {
+            font-family: sans-serif
+        }
+        
+        body {
+            position: relative;
+            background-attachment: fixed;
+            bottom: 7px;
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+74,e5e5e5+100 */
+            background: rgb(255,255,255); /* Old browsers */
+            background: -moz-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 74%, rgba(229,229,229,1) 100%); /* FF3.6-15 */
+            background: -webkit-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 74%,rgba(229,229,229,1) 100%); /* Chrome10-25,Safari5.1-6 */
+            background: radial-gradient(ellipse at center,  rgba(255,255,255,1) 74%,rgba(229,229,229,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+            height: 2080px;
+            margin: 0;
+        }
+        
+        h1,
+        h2,
+        h3 {
+            color: white;
+        }
+        
+        #content {
+            margin-left: 5%;
+            margin-right: 5%;
+            background-color: #fff5ee;
+            min-height: 500px;
+            padding: 0 10px 10px 10px;
+            border: 1px solid gray
+        }
+        
+        @-webkit-keyframes fadeIn { from { opacity:0; opacity: 1\9; /* IE9 only */ } to { opacity:1; } }
+        @-moz-keyframes fadeIn { from { opacity:0; opacity: 1\9; /* IE9 only */ } to { opacity:1; } }
+        @keyframes fadeIn { from { opacity:0; opacity: 1\9; /* IE9 only */ } to { opacity:1; } }
+        
+        .fade-in {
+            opacity: 0;  /* make things invisible upon start */
+            -webkit-animation:fadeIn ease-in 1;  /* call our keyframe named fadeIn, use animattion ease-in and repeat it only 1 time */
+            -moz-animation:fadeIn ease-in 1;
+            animation:fadeIn ease-in 1;
+
+            -webkit-animation-fill-mode:forwards;  /* this makes sure that after animation is done we remain at the last keyframe value (opacity: 1)*/
+            -moz-animation-fill-mode:forwards;
+            animation-fill-mode:forwards;
+
+            -webkit-animation-duration:1s;
+            -moz-animation-duration:1s;
+            animation-duration:1s;
+        }
+        
+        .fade-in.one {
+            -webkit-animation-delay: 0.5s;
+            -moz-animation-delay: 0.5s;
+            animation-delay: 0.5s;
+        }
+        
+        .fade-in.two {
+            -webkit-animation-delay: 1.0s;
+            -moz-animation-delay: 1.0s;
+            animation-delay: 1.0s;
+        }
+        
+        #topBar {
+            background-color: white;
+            height: 100px;
+            border-bottom: 2px solid  lightgray;
+        }
+        
+        .siteTitle {
+            font-family: 'Oleo Script', cursive;
+            color: #745A90;
+            font-size: 45px;
+            text-align: left;
+            padding: 20px;
+            float: left;
+        }
+        
+        #API_TEST {
+            box-shadow: inset 0 1px 0 0 #f7c5c0;
+            background: linear-gradient(to bottom, #fc8d83 5%, #e4685d 100%);
+            background-color: #fc8d83;
+            border-radius: 6px;
+            border: 1px solid #d83526;
+            display: inline-block;
+            cursor: pointer;
+            color: #fff;
+            font-size: 15px;
+            font-weight: bold;
+            padding: 6px 24px;
+            text-decoration: none;
+            text-shadow: 0 1px 0 #b23e35;
+            margin-right: 2em
+        }
+        
+        #searchBox {
+            float: left;
+            padding: 30px 0px 0px 60px;
+            text-align: left;
+        }
+        
+        #search {
+            transition: .3s;
+            font-family: 'Cabin Sketch', cursive;
+            background-color: #745A90;
+            border: 0px;
+            border-radius: 6px;
+            display: inline-block;
+            cursor: pointer;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px 24px 5px 24px;
+            margin: 10px;
+            position: relative;
+            bottom: 2px;
+        }
+        
+        #search:hover {
+            transition: .5s;
+            background-color: #5E4975;
+        }
+        
+        #searchBox input[type="text"] {
+            border: 1px solid #eee;
+            padding: 5px;
+            -moz-transition: all .5s;
+            -webkit-transition: all .5s;
+            transition: all .5s;
+        }
+
+        #searchBox input[type="text"]:focus {
+            border-color: #745A90;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px #745A90;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px #745A90;
+        }  
+        
+        #searchterm {
+            text-align: center;
+            font-family: sans-serif;
+            font-size: 21px;
+        }
+        
+        #searchOptions label {
+            font-family: 'Fredoka One', cursive;
+            color: darkgrey;
+            padding-left: 10px;
+        }
+        
+        #searchOptions {
+            position: relative;
+            top: 30px;
+            padding: 10px;
+            float: left;
+            
+        }
+        
+        #noContent {
+            padding: 50px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 42px;
+            letter-spacing: 8px;
+            text-align: center;
+            color: lightgrey;
+        }
+        
+        #dynamicContent {
+            
+        }
+        
+        .movies {
+            width: 100%;
+            margin: 0 auto
+        }
+        
+        .movieDiv {
+            background-color: #745A90;
+            float: none;
+            width: 50%;
+            margin: 0 auto;
+            height: 510px;
+            max-height: 800px;
+            padding: 10px;
+            margin-top: 5px
+        }
+        
+        .title {
+            width: 90%;
+            font-weight: 800;
+            text-align: center;
+            background-color: white;
+            color: #745A90;
+            font-size: 32px;
+            margin: 0px auto 10px auto;
+        }
+        
+        .descriptionBox {
+            float: left;
+            width: 50%;
+            padding: 0px 10px 10px 10px;
+        }
+        
+        .descHead {
+            background-color: white;
+            width: 220px;
+            font-size: 18px;
+            font-weight: 900;
+            text-align: center;
+            color:  #745A90;
+            padding-bottom: 2px;
+            margin-bottom: 10px
+        }
+        
+        .description {
+            line-height: 125%;
+            color: white;
+            font-size: 16px;
+            width: 500px;
+            float: left;
+            padding-bottom: 20px;
+            border-bottom: 2px solid white;
+        }
+        
+        .poster {
+            float: left;
+            margin: 0 10px 10px 10px;
+            width: 300px;
+        }
+        
+        img {
+            border: 1px solid #fff;
+        }
+            
+        .reccList {
+            float: left;
+            margin-left: 10px;
+            margin-top: 25px;
+        }
+        
+        .reccList h3 {
+            float: none;
+            font-size: 15px;
+            color: white;
+            line-height: 50%;
+        }
+        
+        @media only screen and (max-width: 1750px) {
+            .movieDiv{
+                display: block;
+                overflow: visible;
+                height: 500px
+            }
+            
+            .dataBox {
+                display: block;
+                height: 300px;
+            }
+            
+            .descriptionBox {
+                float: left;
+                width: 40%;
+                margin-top: 10px;
+                height: 200px;
+            }
+            
+            .descHead {
+                font-size: 18px;
+                font-weight: 900;
+                text-align: center;
+                color:  #745A90;
+                padding-bottom: 2px;
+                margin-bottom: 10px
+            }
+            
+            .description {
+                float: left;
+                width: 400px;
+            }
+            
+            .reccList {
+                float: left;
+                width: 50%;
+            }
+            
+            .title {
+                width: auto;
+                font-weight: 800;
+                text-align: center;
+                background-color: white;
+                color: #745A90;
+                font-size: 32px;
+                margin: 0 auto;
+            }
+            
+            .poster {
+                float: left;
+                width: 35%;
+                text-align: left;
+                margin: 10px 0px 10px 0px;
+                
+            }
+            
+            .poster img {
+                width: 250px;
+            }
+        }
+        
+        @media only screen and (max-width: 1530px) {
+            .movieDiv{
+                display: block;
+                overflow: visible;
+                height: 710px
+            }
+            
+            .dataBox {
+                display: block;
+                height: 300px;
+            }
+            
+            .descriptionBox {
+                float: none;
+                width: 90%;
+                height: 200px;
+                margin: 0 auto;
+            }
+            
+            .descHead {
+                width: auto;
+                font-size: 18px;
+                font-weight: 900;
+                text-align: center;
+                color:  #745A90;
+                padding-bottom: 2px;
+                margin-bottom: 10px
+            }
+            
+            .description {
+                height: auto;
+                display: block;
+                overflow: visible;
+                width: 100%;
+            }
+            
+            .reccList {
+                float: none;
+                width: 90%;
+                margin: -20px auto;
+                
+            }
+            
+            .title {
+                width: auto;
+                font-weight: 800;
+                text-align: center;
+                background-color: white;
+                color: #745A90;
+                font-size: 32px;
+                margin: 0 auto;
+            }
+            
+            .poster {
+                float: none;
+                width: 100%;
+                text-align: center;
+                margin: 10px 0px 10px 0px;
+                
+            }
+            
+            .poster img {
+                width: 200px;
+            }
+        }
+        
+        @media only screen and (max-width: 1100px) {
+            #topBar {
+                height: 140px;
+            }
+            
+            #searchOptions {
+                position: relative;
+                top: 0px;
+                padding-left: 10px;
+            }
+        }
+        
+        @media only screen and (max-width: 800px) {
+            .movieDiv {
+                width: 80%;
+                height: 800px;
+            }
+            
+            #topBar {
+                height: 220px;
+            }
+            
+            .siteTitle {
+                padding-bottom: 10px;
+            }
+            
+            #searchBox {
+                width: 100%;
+                display: block;
+                padding: 0px 0px 10px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="topBar">
+        <div class="siteTitle fade-in one"> Filmograffiti </div>
+        <div id="searchBox">
+            <input id="searchterm" type="text" size="20" maxlength="40" autofocus="" value="Enter Title Here">
+            <button type="button" id="search">Search Movies!</button>
+        </div>
+        <div id="searchOptions"> 
+            <label> Results </label>
+            <select id="resultNum"> 
+                <option value=3> 3 </option>
+                <option value=5> 5 </option>
+                <option value=8> 8 </option>
+                <option value=12> 12 </option>
+            </select>
+            <label> Type </label>
+            <select id="resultType"> Type
+                <option value="movies"> Movies </option>
+                <option value="music"> Music </option>
+                <option value="books"> Books </option>
+                <option value="games"> Video Games </option>
+            </select>
+        </div>
+    </div>
+    <div id="dynamicContent">
+    </div>
+</body>
+
+</html>
