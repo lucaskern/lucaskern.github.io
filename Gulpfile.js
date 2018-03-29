@@ -13,8 +13,15 @@ gulp.task('styles', function() {
         .pipe(gulp.dest('./css/styles/'));
 });
 
+gulp.task('stylesNew', function() {  
+    gulp.src('./css/new.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest('./css/styles/'));
+});
+
 //Watch task
 gulp.task('default',function() {
     gulp.watch('new/styles/sass/**/*.scss',['newstyles']);
     gulp.watch('./css/general.scss',['styles']);
+    gulp.watch('./css/new.scss',['stylesNew']);
 }); 

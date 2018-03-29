@@ -11,6 +11,7 @@ $aTran: 1s;
 $fTran: .5s;
 $ffTran: .2s;
 
+
 body {
     font-family: 'Roboto Condensed', sans-serif;
 }
@@ -219,7 +220,7 @@ input {
         color: $primary-color;
         margin: 0px 0px 10px 20px;
         padding-top: 10px;
-        font-size: 100px;
+        font-size: 50px;
         font-weight: 800;
     }
 }
@@ -258,6 +259,10 @@ input {
     background-size: 80%;
     color: #fff;
     padding-bottom: 10em;
+}
+
+.container-about {
+    padding-left: 20px;
 }
 
 .container .button-primary {
@@ -314,9 +319,23 @@ input {
         padding: 50px 0px 150px 0px;
     }
     
+    .section-title {
+        
+        h2 {
+            font-size: 80px;
+        }
+    }
+    
 }
 
 
 /* Larger than Desktop HD */
 
 @media (min-width: 1200px) {}
+
+@media (max-width: 750px) {
+    .col-about {
+        width: 100% !important;
+    }
+
+}

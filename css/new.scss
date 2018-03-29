@@ -1,0 +1,198 @@
+$link-color: #737373;
+$link-color-h: #FA492B;
+$nav-link: white;
+//$primary-color: #F4B266;
+$primary-color: #1C1C1C;
+$secondary-color: #FA492B;
+$section-size: 120px 0px 150px 0px;
+
+$sTran: 2s;
+$aTran: 1s;
+$fTran: .5s;
+$ffTran: .2s;
+
+
+body {
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+html {
+    font-size: 100%;
+}
+
+p, li {
+}
+
+.centered {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.svg-inline--fa {
+    display:none;
+}
+
+.subtitle {
+
+}
+
+.topic {
+
+}
+
+.topic img {
+
+}
+
+.intro {
+    min-height: 100%;
+    margin: 100px;
+    
+    p {
+        font-size: 1.2rem;
+    }
+}
+
+#web,
+#software,
+#fun {
+
+}
+
+.section-title {
+   
+}
+
+.work,
+.contact,
+.about {
+
+}
+
+.container .button-primary {
+}
+
+
+/* Larger than mobile */
+
+@media (min-width: 400px) {
+    .topic img {
+        width: 158px;
+        margin-top: 20px;
+    }
+}
+
+
+/* Larger than phablet (also point when grid becomes active) */
+
+@media (min-width: 550px) {}
+
+
+/* Larger than tablet */
+
+@media (min-width: 750px) {
+    .nav {}
+    .nav a {
+        font-size: 1.3em;
+    }
+    .topic img {
+        width: 128px;
+    }
+    
+        .svg-inline--fa {
+        display: inline;
+    }
+
+}
+
+
+/* Larger than desktop */
+
+@media (min-width: 1000px) {
+    .subtitle {
+        font-size: 30px;
+    }
+    .welcome {
+        padding: $section-size;
+    }
+    .contact {
+        padding: 50px 0px 150px 0px;
+    }
+    
+}
+
+
+/* Larger than Desktop HD */
+
+@media (min-width: 1200px) {}
+
+/* JqueryUI styles */
+
+.ui-widget-header {
+    border: none;
+    background: none;
+}
+
+.borderB {
+    border-bottom: 2px solid white;
+    padding-bottom: 100px;
+}
+
+a,
+.ui-widget-content a {
+    padding-bottom: 2px;
+    border-bottom: 1px solid $link-color;
+    text-decoration: none;
+    color: $link-color;
+    transition: $aTran;
+    font-weight: 800;
+}
+
+a:hover,
+.ui-widget-content a:hover {
+    color: $link-color-h;
+    border-bottom: 1px solid $link-color-h;
+    transition: $fTran;
+}
+
+footer {
+    color: white;
+    padding-top: 20px;
+    text-align: center;
+}
+
+footer a {
+    color: $link-color;
+}
+
+select {
+    color: black;
+}
+
+input {
+    color: black;
+}
+
+#tabs {
+    margin: 0px 0px 30px 0px;
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
+    background: white;
+}
+
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active {
+    background: $primary-color;
+    color: white;
+}
+
+.ui-widget-header .ui-state-active a {
+    color: $nav-link;
+}
+
+/* end JQ UI */
