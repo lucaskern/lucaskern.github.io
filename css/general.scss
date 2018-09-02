@@ -16,7 +16,8 @@ body {
     font-family: 'Roboto Condensed', sans-serif;
 }
 
-p, li {
+p,
+li {
     font-size: 120%;
 }
 
@@ -205,8 +206,7 @@ input {
 #web,
 #software,
 #fun {
-    margin-top: 2em;
-//    border-bottom: 1px solid #494E6B;
+    margin-top: 2em; //    border-bottom: 1px solid #494E6B;
     background-color: white;
     color: black;
 }
@@ -270,8 +270,8 @@ input {
 }
 
 .svg-inline--fa {
-        display:none;
-    }
+    display: none;
+}
 
 /* Larger than mobile */
 
@@ -298,8 +298,8 @@ input {
     .topic img {
         width: 128px;
     }
-    
-        .svg-inline--fa {
+
+    .svg-inline--fa {
         display: inline;
     }
 
@@ -318,14 +318,14 @@ input {
     .contact {
         padding: 50px 0px 150px 0px;
     }
-    
+
     .section-title {
-        
+
         h2 {
             font-size: 80px;
         }
     }
-    
+
 }
 
 
@@ -338,4 +338,55 @@ input {
         width: 100% !important;
     }
 
+    .gift {
+        button {
+            width: 100% !important;
+            height: 100px;
+        }
+
+        .row {
+            width: 100%;
+        }
+    }
+}
+
+.gift {
+    p,
+    h2,
+    h1,
+    h3,
+    h4,
+    a,
+    footer {
+        color: black;
+    }
+
+    .row {
+        float: left;
+        margin: 15px;
+    }
+
+    .title {
+        float: none;
+        text-align: center;
+    }
+
+    button {
+        width: 200px;
+        color: white;
+        
+        :hover {
+            color: black;
+            transition: .3s;
+        }
+        
+        transition: .5s;
+    }
+
+    .row-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 }
