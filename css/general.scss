@@ -341,11 +341,11 @@ input {
     .gift {
         button {
             width: 100% !important;
-            height: 100px;
+            height: 100px !important;
         }
 
         .row {
-            width: 100%;
+            width: 100% !important;
         }
     }
 }
@@ -358,35 +358,35 @@ input {
     h4,
     a,
     footer {
-        color: black;
+        color: black !important;
     }
 
     .row {
-        float: left;
-        margin: 15px;
+        float: left !important;
+        margin: 15px !important;
     }
 
     .title {
-        float: none;
-        text-align: center;
+        float: none !important;
+        text-align: center !important;
     }
 
     button {
         width: 200px;
-        color: white;
+        color: white !important;
         
         :hover {
-            color: black;
-            transition: .3s;
+            color: black !important;
+            transition: .3s !important;
         }
         
-        transition: .5s;
+        transition: .5s !important;
     }
 
     .row-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: wrap;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-wrap: wrap !important;
     }
 }

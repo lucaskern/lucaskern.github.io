@@ -1,7 +1,8 @@
 body {
   font-family: 'Roboto Condensed', sans-serif; }
 
-p, li {
+p,
+li {
   font-size: 120%; }
 
 /* JqueryUI styles */
@@ -235,4 +236,40 @@ input {
 /* Larger than Desktop HD */
 @media (max-width: 750px) {
   .col-about {
+    width: 100% !important; }
+  .gift button {
+    width: 100% !important;
+    height: 100px !important; }
+  .gift .row {
     width: 100% !important; } }
+
+.gift p,
+.gift h2,
+.gift h1,
+.gift h3,
+.gift h4,
+.gift a,
+.gift footer {
+  color: black !important; }
+
+.gift .row {
+  float: left !important;
+  margin: 15px !important; }
+
+.gift .title {
+  float: none !important;
+  text-align: center !important; }
+
+.gift button {
+  width: 200px;
+  color: white !important;
+  transition: .5s !important; }
+  .gift button :hover {
+    color: black !important;
+    transition: .3s !important; }
+
+.gift .row-container {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-wrap: wrap !important; }
