@@ -11,6 +11,10 @@ gulp.task('styles', function() {
     gulp.src('./css/general.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest('./css/styles/'));
+
+    gulp.src('./projects/beatmaker/style.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest('./projects/beatmaker/'));
 });
 
 gulp.task('stylesNew', function() {  
@@ -23,5 +27,6 @@ gulp.task('stylesNew', function() {
 gulp.task('default',function() {
     gulp.watch('new/styles/sass/**/*.scss',['newstyles']);
     gulp.watch('./css/general.scss',['styles']);
+    gulp.watch('./projects/beatmaker/style.scss',['styles']);
     gulp.watch('./css/new.scss',['stylesNew']);
 }); 

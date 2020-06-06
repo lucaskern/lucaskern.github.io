@@ -227,7 +227,7 @@ var randomRange = function getRandomArbitrary(min, max) {
 }
 var draw = function (xSpot) {
     ctx.fillStyle = 'white';
-    ctx.strokeStyle = "black";
+    ctx.strokeStyle = "#293241";
     ctx.lineWidth = 3;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     for (var y = 1; y < height - 1; y++) {
@@ -236,19 +236,19 @@ var draw = function (xSpot) {
             //change saturation of note based on octave
             if (grid[y][x][0] == 1) {
                 if (grid[y][x][1] < 31) {
-                    ctx.fillStyle = "rgb(35,0,0)";
+                    ctx.fillStyle = "rgb(99, 45, 32)";
                 } else if (grid[y][x][1] < 66) {
-                    ctx.fillStyle = "rgb(70,0,0)";
+                    ctx.fillStyle = "rgb(119, 54, 39)";
                 } else if (grid[y][x][1] < 130) {
-                    ctx.fillStyle = "rgb(105,0,0)";
+                    ctx.fillStyle = "rgb(139, 64, 45)";
                 } else if (grid[y][x][1] < 261) {
-                    ctx.fillStyle = "rgb(140,0,0)";
+                    ctx.fillStyle = "rgb(158, 73, 51)";
                 } else if (grid[y][x][1] < 523) {
-                    ctx.fillStyle = "rgb(175,0,0)";
+                    ctx.fillStyle = "rgb(178, 82, 58)";
                 } else if (grid[y][x][1] < 1046) {
-                    ctx.fillStyle = "rgb(210,0,0)";
+                    ctx.fillStyle = "rgb(198, 90, 64)";
                 } else {
-                    ctx.fillStyle = "rgb(245,0,0)";
+                    ctx.fillStyle = "rgb(217, 99, 70)";
                 }
 
                 //change shape of note based on osc type
@@ -301,7 +301,7 @@ var draw = function (xSpot) {
             }
         }
 
-        ctx.fillStyle = "rgba(40, 240, 60, 0.6)";
+        ctx.fillStyle = "rgba(238, 108, 77, 0.5)";
         ctx.fillRect(xSpot * cellSize, y * cellSize, cellSize, cellSize);
     }
 }
